@@ -12,5 +12,5 @@ table
 
       - if current_record.respond_to? parameter
         tr
-          td.label = "#{parameter.to_s.titleize}"
+          td = "#{parameter.to_s.titleize}"
           td = attribute_for current_record, parameter
