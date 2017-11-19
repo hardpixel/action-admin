@@ -18,5 +18,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'action_crud', '~> 0.1'
   s.add_dependency 'simple_form', '~> 3.5'
   s.add_dependency 'simple_attribute', '~> 0.1'
+  s.add_dependency 'meta-tags', '~> 2.6'
   s.add_development_dependency 'sqlite3'
 end
