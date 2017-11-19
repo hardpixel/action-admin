@@ -1,0 +1,16 @@
+.links
+  = link_to 'Edit', edit_record_path(current_record)
+  = link_to 'Back', records_path
+
+h1 Showing Record
+
+table
+  tbody
+    - (permitted_params - current_model.attribute_aliases.values.map(&:to_sym)).each do |parameter|
+      - parameter = parameter.first if parameter.is_a? Array
+      - parameter = parameter.keys.first if parameter.is_a? Hash
+
+      - if current_record.respond_to? parameter
+        tr
+          td.label = "#{parameter.to_s.titleize}"
+          td = attribute_for current_record, parameter

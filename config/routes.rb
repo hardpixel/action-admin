@@ -1,3 +1,3 @@
 ActionAdmin::Engine.routes.draw do
-  root 'application#index'
+  root 'admin/dashboard#index'
 end

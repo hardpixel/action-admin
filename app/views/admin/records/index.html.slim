@@ -1,0 +1,39 @@
+.links
+  = link_to 'New Record', new_record_path
+
+h1 Listing records
+
+- if current_records.empty?
+  p.warning = 'No records found. Create new record!'
+
+- else
+  table.list
+    thead
+      tr
+        th ID
+
+        - permitted_params.first(3).each do |parameter|
+          - if current_record.respond_to? parameter
+            - parameter = parameter.first if parameter.is_a? Array
+            - parameter = parameter.keys.first if parameter.is_a? Hash
+            th = parameter.to_s.titleize
+
+        th Actions
+
+    tbody
+      - current_records.each do |record|
+        tr
+          td = record.id
+
+          - permitted_params.first(3).each do |parameter|
+            - parameter = parameter.first if parameter.is_a? Array
+            - parameter = parameter.keys.first if parameter.is_a? Hash
+
+            - if record.respond_to? parameter
+              td = attribute_for record, parameter
+
+          td.actions
+            = record_links_to record
+
+  - if current_records.respond_to? :current_page
+    = pagination_for current_records

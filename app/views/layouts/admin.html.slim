@@ -2,25 +2,27 @@ doctype html
 
 html
   head
-    title = 'Action admin'
     link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900&amp;subset=cyrillic,greek"
     link rel="stylesheet" href="https://cdn.materialdesignicons.com/1.9.32/css/materialdesignicons.min.css"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    = display_meta_tags
     = csrf_meta_tags
-    = stylesheet_link_tag 'action_admin/application', media: 'all'
+    = stylesheet_link_tag 'admin/application', media: 'all'
 
   body
     .off-canvas-wrapper
       .off-canvas-menu-wrapper.off-canvas-content data-off-canvas-content=""
         #sidebar.off-canvas-menu.position-left data-off-canvas-menu=""
-          = render 'action_admin/common/sidebar'
+          = render 'admin/common/sidebar'
 
         .off-canvas-menu-content data-off-canvas-content=""
-          = render 'action_admin/common/topbar'
+          = render 'admin/common/topbar'
 
           main.content
             = yield
 
       #offcanvas.off-canvas.position-right data-off-canvas=""
-        = render 'action_admin/common/messagebar'
+        = render 'admin/common/messagebar'
 
-    = javascript_include_tag 'action_admin/application'
+    = javascript_include_tag 'admin/application'

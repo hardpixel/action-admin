@@ -1,0 +1,27 @@
+= simple_form_for(current_record) do |f|
+  = f.error_notification
+
+  .form-inputs
+    - (permitted_params - current_model.attribute_aliases.values.map(&:to_sym)).each do |parameter|
+      - parameter = parameter.first if parameter.is_a? Array
+      - parameter = parameter.keys.first if parameter.is_a? Hash
+
+      - if current_record.respond_to? parameter
+        - if parameter.to_s == 'parent_id'
+          - exclude = [current_record.id] + current_record.child_ids unless current_record.new_record?
+          = f.input parameter, as: :select, collection: current_model.where.not(id: exclude), include_blank: 'No parent'
+        - else
+          - assoc  = parameter.to_s.sub('_ids', '').sub('_id', '')
+          - single = current_model.reflect_on_association(assoc)
+          - plural = current_model.reflect_on_association(assoc.pluralize)
+          - assoc  = assoc.pluralize unless plural.nil?
+
+          - if parameter.to_s.ends_with?('_id')
+            = f.input parameter, collection: single.options[:class_name].classify.constantize.all, include_blank: 'None'
+          - elsif parameter.to_s.ends_with?('_ids')
+            = f.association assoc
+          - else
+            = f.input parameter, include_blank: 'Default', placeholder: "Enter #{parameter.to_s.humanize.downcase}..."
+
+  .form-actions
+    = f.button :submit
