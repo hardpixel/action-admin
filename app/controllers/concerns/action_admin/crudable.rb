@@ -4,6 +4,9 @@ module ActionAdmin
 
     included do
       include ActionCrud
+
+      set_namespace :admin
+      permit_params
     end
 
     class_methods do
