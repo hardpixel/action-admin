@@ -4,7 +4,7 @@
 h1 Listing records
 
 - if current_records.empty?
-  p.warning = 'No records found. Create new record!'
+  = render 'admin/common/noresults'
 
 - else
   table.list
