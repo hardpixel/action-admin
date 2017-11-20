@@ -1,16 +1,13 @@
-.links
-  = link_to 'Edit', edit_record_path
-  = link_to 'Back', records_path
+.panel
+  .panel-header = action_name.titleize
+  .panel-content.padding-0.border-none
+    table.margin-0
+      tbody
+        - (permitted_params - current_model.attribute_aliases.values.map(&:to_sym)).each do |parameter|
+          - parameter = parameter.first if parameter.is_a? Array
+          - parameter = parameter.keys.first if parameter.is_a? Hash
 
-h1 Showing Record
-
-table
-  tbody
-    - (permitted_params - current_model.attribute_aliases.values.map(&:to_sym)).each do |parameter|
-      - parameter = parameter.first if parameter.is_a? Array
-      - parameter = parameter.keys.first if parameter.is_a? Hash
-
-      - if current_record.respond_to? parameter
-        tr
-          td = "#{parameter.to_s.titleize}"
-          td = attribute_for current_record, parameter
+          - if current_record.respond_to? parameter
+            tr
+              td = "#{parameter.to_s.titleize}"
+              td = attribute_for current_record, parameter

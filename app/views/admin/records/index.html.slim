@@ -1,39 +1,37 @@
-.links
-  = link_to 'New Record', new_record_path
-
-h1 Listing records
-
 - if current_records.empty?
   = render 'admin/common/noresults'
 
 - else
-  table.list
-    thead
-      tr
-        th ID
-
-        - permitted_params.first(3).each do |parameter|
-          - if current_record.respond_to? parameter
-            - parameter = parameter.first if parameter.is_a? Array
-            - parameter = parameter.keys.first if parameter.is_a? Hash
-            th = parameter.to_s.titleize
-
-        th Actions
-
-    tbody
-      - current_records.each do |record|
+.panel
+  .panel-header = action_name.titleize
+  .panel-content.padding-0.border-none
+    table.margin-0
+      thead
         tr
-          td = record.id
+          th.shrink ID
 
-          - permitted_params.first(3).each do |parameter|
-            - parameter = parameter.first if parameter.is_a? Array
-            - parameter = parameter.keys.first if parameter.is_a? Hash
+          - permitted_params.first(1).each do |parameter|
+            - if current_record.respond_to? parameter
+              - parameter = parameter.first if parameter.is_a? Array
+              - parameter = parameter.keys.first if parameter.is_a? Hash
+              th.expand = parameter.to_s.titleize
 
-            - if record.respond_to? parameter
-              td = attribute_for record, parameter
+          th.shrink.actions Actions
 
-          td.actions
-            = record_links_to record
+      tbody
+        - current_records.each do |record|
+          tr
+            td.shrink = record.id
+
+            - permitted_params.first(1).each do |parameter|
+              - parameter = parameter.first if parameter.is_a? Array
+              - parameter = parameter.keys.first if parameter.is_a? Hash
+
+              - if record.respond_to? parameter
+                td.expand = attribute_for record, parameter
+
+            td.shrink.actions
+              = record_links_to record
 
   - if current_records.respond_to? :current_page
-    = pagination_for current_records
+    .panel-footer = pagination_for current_records
