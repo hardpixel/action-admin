@@ -1,5 +1,7 @@
 module ActionAdmin
   class CrudController < BaseController
-    include ActionAdmin::Crudable
+    def self.inherited(subclass)
+      subclass.send(:include, ActionAdmin::Crudable)
+    end
   end
 end
