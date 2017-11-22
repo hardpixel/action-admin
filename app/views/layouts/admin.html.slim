@@ -20,7 +20,9 @@ html
           = render 'admin/common/topbar'
 
           main.content
+            = render 'admin/common/header'
             = yield
+            = render 'admin/common/footer'
 
       #offcanvas.off-canvas.position-right data-off-canvas=""
         = render 'admin/common/messagebar'
