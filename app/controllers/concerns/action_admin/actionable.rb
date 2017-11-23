@@ -4,12 +4,6 @@ module ActionAdmin
 
     included do
       class_attribute :action_header
-
-      before_action do
-        self.class.header :new do |h|
-          h.title 'Test PAGE'
-        end
-      end
     end
 
     class_methods do

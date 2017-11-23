@@ -9,51 +9,53 @@ module ActionAdmin
       data.join(' ').html_safe
     end
 
-    def admin_pagination(records)
-      options = {
+    def admin_pagination(records, options={})
+      options = options.merge({
         previous_class: 'pagination-previous',
         next_class:     'pagination-next',
         active_class:   'current'
-      }
+      })
 
       smart_pagination_for(records, options)
     end
 
-    def admin_action_title(action=nil)
-      name  = action || action_name
-      title = controller.action_header.actions[:"#{name}"][:title]
+    def admin_table_pagination(records)
+      info  = content_tag :div, smart_pagination_info_for(records), class: 'shrink cell'
+      links = admin_pagination(records, wrapper_class: 'pagination margin-0')
+      links = content_tag :div, links, class: 'auto cell text-right'
 
-      if title.is_a?(Proc)
-        instance_exec(&title)
-      elsif title.is_a?(Symbol)
-        send(title)
-      else
-        title
-      end
+      content_tag :div, info + links, class: 'grid-x'
+    end
+
+    def admin_action_title(action=nil)
+      name = action || action_name
+      controller.action_header.action_title(name, self)
     end
 
     def admin_action_links(action=nil)
       name  = action || action_name
-      links = controller.action_header.actions[:"#{name}"][:links].map do |link|
-        url = link[:url]
-        url = begin
-          if url.is_a?(Proc)
-            instance_exec(&url)
-          elsif url.is_a?(Symbol)
-            send(url)
-          else
-            url
-          end
-        end
-
+      links = controller.action_header.action_links(name, self).map do |link|
         opts    = Hash(link[:html]).merge(method: link[:method])
         classes = "button small hollow #{opts[:class]}".strip
         label   = admin_icon(link[:icon], text: link[:label])
 
-        link_to label, url, opts.merge(class: classes)
+        link_to label, link[:url], opts.merge(class: classes)
       end
 
       links.join(' ').html_safe
+    end
+
+    def admin_table_action_links(record, actions=nil)
+      options = {
+        show:    { label: admin_icon('eye'), title: 'View', class: 'success' },
+        edit:    { label: admin_icon('pencil'), title: 'Edit' },
+        destroy: { label: admin_icon('delete'), title: 'Delete', class: 'alert' }
+      }
+
+      options = options.select { |k, _v| k.in? actions } if actions.present?
+      options = options.merge(html: { class: 'button hollow' })
+
+      record_links_to record, options
     end
   end
 end

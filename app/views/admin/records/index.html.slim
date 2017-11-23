@@ -31,9 +31,8 @@
                   td.expand = attribute_for record, parameter
 
               td.shrink.actions
-                = record_links_to record
+                = admin_table_action_links record
 
     - if current_records.respond_to? :current_page
       .panel-footer
-        .float-left = pagination_info_for current_records
-        .float-right = admin_pagination current_records
+        = admin_table_pagination current_records
