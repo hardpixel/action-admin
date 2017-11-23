@@ -20,12 +20,12 @@ module ActionAdmin
     end
 
     def action_title(name, context)
-      title = Hash(actions[:"#{name}"])[:title] || default_title(context)
+      title = Hash(actions[:"#{name}"]).fetch :title, default_title(context)
       evaluate_value(title, context)
     end
 
     def action_links(name, context)
-      links = Hash(actions[:"#{name}"])[:links]
+      links = Hash(actions[:"#{name}"]).fetch :links, default_action_links(name, context)
 
       Array(links).map do |link|
         Hash[link.map { |k, v| [k, evaluate_value(v, context)] }]
@@ -38,6 +38,25 @@ module ActionAdmin
       else
         context.action_name.titleize
       end
+    end
+
+    def default_action_links(name, context)
+      setup = { index: :new, new: :index, show: [:index, :edit, :destroy], edit: [:index, :show, :destroy] }
+      links = default_links(context)
+
+      Array(setup[:"#{name}"]).map { |l| links[l] }.reject(&:nil?)
+    end
+
+    def default_links(context)
+      return {} unless context.controller.respond_to? :permitted_params
+
+      {
+        show:    { label: 'View',   icon: 'eye',        url: :record_path },
+        index:   { label: 'Back',   icon: 'arrow-left', url: :records_path,     html: { class: 'inactive' } },
+        new:     { label: 'New',    icon: 'plus',       url: :new_record_path,  html: { class: 'success' } },
+        edit:    { label: 'Edit',   icon: 'pencil',     url: :edit_record_path, html: { class: 'warning' } },
+        destroy: { label: 'Delete', icon: 'delete',     url: :record_path,      html: { class: 'alert' }, method: 'delete' }
+      }
     end
 
     private

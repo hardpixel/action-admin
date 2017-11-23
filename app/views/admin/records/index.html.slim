@@ -5,11 +5,9 @@
   .panel
     .panel-header = action_name.titleize
     .panel-content.padding-0.border-none
-      table.margin-0
+      table.unstriped.margin-0 data-table-checkbox=""
         thead
           tr
-            th.shrink ID
-
             - permitted_params.first(1).each do |parameter|
               - if current_record.respond_to? parameter
                 - parameter = parameter.first if parameter.is_a? Array
@@ -21,8 +19,6 @@
         tbody
           - current_records.each do |record|
             tr
-              td.shrink = record.id
-
               - permitted_params.first(1).each do |parameter|
                 - parameter = parameter.first if parameter.is_a? Array
                 - parameter = parameter.keys.first if parameter.is_a? Hash
