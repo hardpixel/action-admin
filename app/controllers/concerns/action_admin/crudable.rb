@@ -3,6 +3,7 @@ module ActionAdmin
     extend ActiveSupport::Concern
 
     included do
+      include ActionAdmin::Actionable
       include ActionCrud
 
       set_namespace :admin
