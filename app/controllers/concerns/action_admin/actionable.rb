@@ -3,10 +3,10 @@ module ActionAdmin
     extend ActiveSupport::Concern
 
     included do
-      include ActionAdmin::Base
+      include Base
 
       class_attribute :action_header
-      self.action_header = ActionAdmin::Header.new
+      self.action_header = Header.new
     end
 
     class_methods do
