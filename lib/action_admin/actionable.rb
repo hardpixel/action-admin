@@ -3,7 +3,7 @@ module ActionAdmin
     extend ActiveSupport::Concern
 
     included do
-      include Base
+      include Controller
 
       class_attribute :action_header
       self.action_header = Header.new

@@ -1,5 +1,5 @@
 module ActionAdmin
-  module Base
+  module Controller
     extend ActiveSupport::Concern
 
     included do
