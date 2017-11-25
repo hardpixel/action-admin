@@ -1,14 +1,22 @@
+ruby:
+  items_left = {
+    toggle: {
+      icon: 'menu',
+      html: { 'data-toggle': 'sidebar' }
+    }
+  }
+
+  items_right = {
+    website: {
+      url: :root_url,
+      icon: 'web',
+      html: { target: :_blank }
+    }
+  }
+
 .top-bar
   .top-bar-left
-    ul.menu
-      li
-        a data-toggle="sidebar"
-          i.mdi.mdi-menu
+    = admin_topbar_menu items_left
 
   .top-bar-right
-    ul.menu
-      li
-        = link_to admin_icon('web'), root_url, target: :_blank
-      / li
-      /   a data-toggle="offcanvas"
-      /     i.mdi.mdi-comment-processing-outline
+    = admin_topbar_menu items_right

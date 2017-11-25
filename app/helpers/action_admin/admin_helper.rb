@@ -27,6 +27,51 @@ module ActionAdmin
       content_tag :div, info + links, class: 'grid-x'
     end
 
+    def admin_primary_menu(items)
+      options = {
+        menu_class:           'vertical menu icons icon-left accordion-menu',
+        menu_html:            { 'data-accordion-menu': '', 'data-submenu-toggle': true },
+        separator_class:      'is-separator',
+        submenu_parent_class: 'has-children',
+        submenu_class:        'vertical menu nested',
+        active_class:         'is-current',
+        active_submenu_class: 'is-current',
+        icon_prefix:          'mdi mdi-'
+      }
+
+      smart_navigation_for items, options
+    end
+
+    def admin_secondary_menu(items)
+      options = {
+        menu_class:           'vertical menu secondary icons icon-right',
+        separator_class:      'is-separator',
+        submenu_parent_class: 'has-children',
+        submenu_class:        'vertical menu nested',
+        active_class:         'is-current',
+        active_submenu_class: 'is-current',
+        icon_prefix:          'mdi mdi-',
+        icon_position:        'right'
+      }
+
+      smart_navigation_for items, options
+    end
+
+    def admin_topbar_menu(items)
+      options = {
+        menu_class:           'menu',
+        separator_class:      'is-separator',
+        submenu_parent_class: 'has-children',
+        submenu_class:        'vertical menu nested',
+        active_class:         'is-current',
+        active_submenu_class: 'is-current',
+        icon_prefix:          'mdi mdi-',
+        icon_position:        'right'
+      }
+
+      smart_navigation_for items, options
+    end
+
     def admin_action_title(action=nil)
       name = action || action_name
       controller.action_header.action_title(name, self)

@@ -1,3 +1,9 @@
 .logo-bar
   = image_tag 'admin/logo.svg'
   span = 'Bedrock Admin'
+
+= admin_primary_menu ActionAdmin.config.menus.primary
+
+.margin-vertical-1
+
+= admin_secondary_menu ActionAdmin.config.menus.secondary
