@@ -1,3 +1,3 @@
 ActionAdmin::Engine.routes.draw do
-  root 'admin/dashboard#index'
+  root 'action_admin/welcome#index', as: :action_admin
 end
