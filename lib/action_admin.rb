@@ -7,11 +7,11 @@ module ActionAdmin
 
   # Autoload modules
   autoload :Config
+  autoload :SimpleForm
   autoload :Controller
   autoload :Actionable
   autoload :Crudable
   autoload :Header
-  autoload :SimpleForm
 
   # Set attr accessors
   mattr_accessor :config
