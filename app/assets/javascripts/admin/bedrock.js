@@ -22266,6 +22266,8 @@ var OffCanvasMenu = function (_Plugin) {
 
         new _foundation3.AccordionMenu(accordion);
         new _foundation4.DropdownMenu(dropdown);
+
+        accordion.foundation('down', accordion.find('.is-current > ul'));
       });
     }
 
