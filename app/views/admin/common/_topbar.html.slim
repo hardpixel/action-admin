@@ -1,22 +1,6 @@
-ruby:
-  items_left = {
-    toggle: {
-      icon: 'menu',
-      html: { 'data-toggle': 'sidebar' }
-    }
-  }
-
-  items_right = {
-    website: {
-      url: :root_url,
-      icon: 'web',
-      html: { target: :_blank }
-    }
-  }
-
 .top-bar
   .top-bar-left
-    = admin_topbar_menu items_left
+    = admin_topbar_menu :left
 
   .top-bar-right
-    = admin_topbar_menu items_right
+    = admin_topbar_menu :right

@@ -11,9 +11,6 @@ module ActionAdmin
 
       # Render default view
       rescue_from ActionController::UnknownFormat, with: :render_default_view
-
-      # Action callbacks
-      before_action :set_meta
     end
 
     private
@@ -24,20 +21,6 @@ module ActionAdmin
           format.html { render 'admin/common/action' }
           format.json { render json: { message: 'No content' }, status: :unprocessable_entity }
         end
-      end
-
-      # Set meta tags
-      def set_meta
-        tags = {
-          site:     'Bedrock',
-          noindex:  true,
-          nofollow: true,
-          reverse:  true,
-          title:    "#{controller_name.titleize} #{action_name.titleize}",
-          charset:  'utf-8'
-        }
-
-        set_meta_tags tags
       end
   end
 end
