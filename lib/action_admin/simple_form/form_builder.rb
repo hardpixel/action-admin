@@ -7,7 +7,7 @@ module ActionAdmin
 
         @admin = {
           button_class:             'button',
-          error_notification_class: 'alert-box alert',
+          error_notification_class: 'callout alert',
           default_wrapper:          :admin_vertical_form,
           wrapper_mappings:         {
             check_boxes:   :admin_horizontal_radio_and_checkboxes,
@@ -33,6 +33,11 @@ module ActionAdmin
         else
           send(type, *args, &block)
         end
+      end
+
+      # Create error notification
+      def error_notification(options={})
+        SimpleForm::ErrorNotification.new(self, options).render
       end
 
       # Find field wrapper

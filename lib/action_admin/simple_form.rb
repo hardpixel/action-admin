@@ -4,5 +4,6 @@ module ActionAdmin
 
     autoload :FormBuilder
     autoload :MinimalFormBuilder
+    autoload :ErrorNotification
   end
 end

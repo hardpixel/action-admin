@@ -8,8 +8,8 @@ SimpleForm.setup do |config|
     b.optional :min_max
     b.optional :readonly
     b.use :label_input
-    b.use :error, wrap_with: { tag: :small, class: :error }
-    b.use :hint,  wrap_with: { tag: :span, class: :hint }
+    b.use :error, wrap_with: { tag: :span, class: 'form-error is-visible' }
+    b.use :hint,  wrap_with: { tag: :p, class: 'help-text' }
   end
 
   config.wrappers :admin_horizontal_form, tag: 'div', class: 'row', hint_class: :field_with_hint, error_class: :error do |b|
@@ -27,8 +27,8 @@ SimpleForm.setup do |config|
 
     b.wrapper :right_input_wrapper, tag: :div, class: 'small-9 columns' do |ba|
       ba.use :input
-      ba.use :error, wrap_with: { tag: :small, class: :error }
-      ba.use :hint,  wrap_with: { tag: :span, class: :hint }
+      ba.use :error, wrap_with: { tag: :span, class: 'form-error is-visible' }
+      ba.use :hint,  wrap_with: { tag: :p, class: 'help-text' }
     end
   end
 
@@ -44,8 +44,8 @@ SimpleForm.setup do |config|
     b.use :label, class: 'hidden-for-small-up'
     b.use :input
 
-    b.use :error, wrap_with: { tag: :small, class: :error }
-    b.use :hint,  wrap_with: { tag: :span, class: :hint }
+    b.use :error, wrap_with: { tag: :span, class: 'form-error is-visible' }
+    b.use :hint,  wrap_with: { tag: :p, class: 'help-text' }
   end
 
   config.wrappers :admin_horizontal_radio_and_checkboxes, tag: 'div', class: 'row' do |b|
@@ -58,8 +58,8 @@ SimpleForm.setup do |config|
         bb.use :label_text
       end
 
-      ba.use :error, wrap_with: { tag: :small, class: :error }
-      ba.use :hint,  wrap_with: { tag: :span, class: :hint }
+      ba.use :error, wrap_with: { tag: :span, class: 'form-error is-visible' }
+      ba.use :hint,  wrap_with: { tag: :p, class: 'help-text' }
     end
   end
 
@@ -70,8 +70,8 @@ SimpleForm.setup do |config|
 
     b.wrapper tag: 'div', class: 'small-4 columns' do |ba|
       ba.use :input
-      ba.use :error, wrap_with: { tag: :small, class: :error }
-      ba.use :hint,  wrap_with: { tag: :span, class: :hint }
+      ba.use :error, wrap_with: { tag: :span, class: 'form-error is-visible' }
+      ba.use :hint,  wrap_with: { tag: :p, class: 'help-text' }
     end
   end
 
@@ -83,7 +83,7 @@ SimpleForm.setup do |config|
       ba.use :label_input
     end
 
-    b.use :error, wrap_with: { tag: :small, class: :error }
-    b.use :hint,  wrap_with: { tag: :span, class: :hint }
+    b.use :error, wrap_with: { tag: :span, class: 'form-error is-visible' }
+    b.use :hint,  wrap_with: { tag: :p, class: 'help-text' }
   end
 end
