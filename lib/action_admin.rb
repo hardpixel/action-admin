@@ -1,5 +1,9 @@
-require 'action_crud'
 require 'hashie'
+require 'simple_form'
+require 'action_crud'
+require 'smart_pagination'
+require 'smart_navigation'
+require 'simple_attribute'
 require 'action_admin/engine'
 
 module ActionAdmin
