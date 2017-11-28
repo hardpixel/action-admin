@@ -1,5 +1,6 @@
 require 'hashie'
 require 'simple_form'
+require 'bedrock_sass'
 require 'action_crud'
 require 'smart_pagination'
 require 'smart_navigation'
