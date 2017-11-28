@@ -1,3 +1,4 @@
-.header
-  h1.h3.title = admin_action_title
-  .actions = admin_action_links
+- unless admin_action_title.nil?
+  .header
+    h1.h3.title = admin_action_title
+    .actions = admin_action_links

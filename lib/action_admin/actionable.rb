@@ -10,6 +10,11 @@ module ActionAdmin
     end
 
     class_methods do
+      def action_title(action, title)
+        self.action_header.action(action)
+        self.action_header.title(title)
+      end
+
       def header(action, &block)
         self.action_header.action(action)
         yield self.action_header

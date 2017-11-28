@@ -15,7 +15,7 @@ module ActionAdmin
         noindex:  true,
         nofollow: true,
         reverse:  true,
-        title:    admin_action_title,
+        title:    admin_action_title || "#{action_name}".titleize,
         charset:  'utf-8'
       }
 
