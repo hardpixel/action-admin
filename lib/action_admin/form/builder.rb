@@ -1,6 +1,6 @@
 module ActionAdmin
-  module SimpleForm
-    class FormBuilder < ::SimpleForm::FormBuilder
+  module Form
+    class Builder < ::SimpleForm::FormBuilder
       # Initialize form builder
       def initialize(*)
         super
@@ -37,7 +37,7 @@ module ActionAdmin
 
       # Create error notification
       def error_notification(options={})
-        SimpleForm::ErrorNotification.new(self, options).render
+        Form::ErrorNotification.new(self, options).render
       end
 
       # Find field wrapper

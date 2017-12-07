@@ -13,7 +13,7 @@ module ActionAdmin
 
   # Autoload modules
   autoload :Config
-  autoload :SimpleForm
+  autoload :Form
   autoload :Header
 
   # Set attr accessors

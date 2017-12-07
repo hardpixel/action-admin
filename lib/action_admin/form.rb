@@ -1,9 +1,9 @@
 module ActionAdmin
-  module SimpleForm
+  module Form
     extend ActiveSupport::Autoload
 
-    autoload :FormBuilder
-    autoload :MinimalFormBuilder
+    autoload :Builder
+    autoload :MinimalBuilder
     autoload :ErrorNotification
   end
 end

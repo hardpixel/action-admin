@@ -1,6 +1,6 @@
 module ActionAdmin
-  module SimpleForm
-    class MinimalFormBuilder < FormBuilder
+  module Form
+    class MinimalBuilder < Builder
       # Form builder input
       def input(attribute_name, options = {}, &block)
         if options[:placeholder].nil?
