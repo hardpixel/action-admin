@@ -5,8 +5,10 @@ module ActionAdmin
     end
 
     def admin_action_title(action=nil)
-      name = action || action_name
-      controller.action_header.action_title(name, self)
+      if controller.respond_to? :action_header
+        name = action || action_name
+        controller.action_header.action_title(name, self)
+      end
     end
 
     def admin_meta_tags
@@ -16,7 +18,8 @@ module ActionAdmin
         nofollow: true,
         reverse:  true,
         title:    admin_action_title || "#{action_name}".titleize,
-        charset:  'utf-8'
+        charset:  'utf-8',
+        viewport: 'width=device-width, initial-scale=1.0'
       }
 
       set_meta_tags tags
