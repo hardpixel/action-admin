@@ -13,9 +13,6 @@ module ActionAdmin
   # Autoload modules
   autoload :Config
   autoload :SimpleForm
-  autoload :Controller
-  autoload :Actionable
-  autoload :Crudable
   autoload :Header
 
   # Set attr accessors
