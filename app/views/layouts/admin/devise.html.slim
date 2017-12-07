@@ -1,0 +1,12 @@
+doctype html
+
+html
+  head
+    = admin_meta_tags
+    = csrf_meta_tags
+    = favicon_link_tag 'admin/favicon.png'
+    = stylesheet_link_tag 'admin/application', media: 'all'
+
+  body
+    = yield
+    = javascript_include_tag 'admin/application'
