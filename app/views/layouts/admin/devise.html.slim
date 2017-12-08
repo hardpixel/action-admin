@@ -8,5 +8,9 @@ html
     = stylesheet_link_tag 'admin/application', media: 'all'
 
   body
-    = yield
+    .login-box
+      .logo-image = image_tag 'admin/logo-login.svg'
+      = render 'admin/common/alerts'
+      = yield
+
     = javascript_include_tag 'admin/application'
