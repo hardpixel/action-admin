@@ -13,6 +13,7 @@ module ActionAdmin
       def action_title(action, title)
         self.action_header.action(action)
         self.action_header.title(title)
+        self.action_header.action(nil)
       end
 
       def header(action, &block)
