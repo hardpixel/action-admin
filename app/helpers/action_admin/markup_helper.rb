@@ -68,17 +68,20 @@ module ActionAdmin
       }
 
       options = {
-        menu_class:           'menu',
+        menu_class:           'menu icons icon-left',
         separator_class:      'is-separator',
         submenu_parent_class: 'has-children',
         submenu_class:        'vertical menu nested',
         active_class:         'is-current',
         active_submenu_class: 'is-current',
         icon_prefix:          'mdi mdi-',
-        icon_position:        'right'
+        icon_position:        'left'
       }
 
-      smart_navigation_for items[position], options
+      custom = ActionAdmin.config.menus.send(:"topbar_#{position}")
+      items  = items[position].merge(Hash(custom))
+
+      smart_navigation_for items, options
     end
 
     def admin_action_links(action=nil)
