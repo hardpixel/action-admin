@@ -1,0 +1,14 @@
+= admin_minimal_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+  .panel
+    .panel-header.border
+      = admin_action_title
+
+    .panel-content.border
+      = f.input :email, required: false, autofocus: true
+      = f.input :password, required: false
+      = f.input :remember_me, as: :boolean, placeholder: false if devise_mapping.rememberable?
+
+    .panel-footer
+      = f.button :submit, 'Log in', class: 'expanded margin-0'
+
+= render 'action_admin/devise/shared/links'

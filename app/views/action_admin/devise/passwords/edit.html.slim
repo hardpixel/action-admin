@@ -1,0 +1,20 @@
+= admin_minimal_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+  .panel
+    .panel-header.border
+      = admin_action_title
+
+    .panel-content.border
+      = f.error_notification
+
+      - if @minimum_password_length
+        .callout.info = "Password: #{@minimum_password_length} characters minimum"
+
+      = f.input :reset_password_token, as: :hidden
+      = f.full_error :reset_password_token
+      = f.input :password, label: 'New password', required: true, autofocus: true
+      = f.input :password_confirmation, label: 'Confirm new password', required: true
+
+    .panel-footer
+      = f.button :submit, 'Change password', class: 'expanded margin-0'
+
+= render 'action_admin/devise/shared/links'

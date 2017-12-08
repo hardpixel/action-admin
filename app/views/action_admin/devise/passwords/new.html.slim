@@ -1,0 +1,13 @@
+= admin_minimal_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+  .panel
+    .panel-header.border
+      = admin_action_title
+
+    .panel-content.border
+      = f.error_notification
+      = f.input :email, required: true, autofocus: true
+
+    .panel-footer
+      = f.button :submit, 'Send me reset password instructions', class: 'expanded margin-0'
+
+= render 'action_admin/devise/shared/links'

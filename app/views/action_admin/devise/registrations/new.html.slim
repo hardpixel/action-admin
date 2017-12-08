@@ -1,0 +1,19 @@
+= admin_minimal_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+  .panel
+    .panel-header.border
+      = admin_action_title
+
+    .panel-content.border
+      = f.error_notification
+
+      - if @minimum_password_length
+        .callout.info = "Password: #{@minimum_password_length} characters minimum"
+
+      = f.input :email, required: true, autofocus: true
+      = f.input :password, required: true
+      = f.input :password_confirmation, required: true
+
+    .panel-footer
+      = f.button :submit, 'Sign up', class: 'expanded margin-0'
+
+= render 'action_admin/devise/shared/links'
