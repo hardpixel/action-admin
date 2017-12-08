@@ -2,7 +2,9 @@
   = f.error_notification
 
   .panel
-    .panel-header.border = action_name.titleize
+    .panel-header.border
+      = action_name.titleize
+
     .panel-content.border
       - (permitted_params - current_model.attribute_aliases.values.map(&:to_sym)).each do |parameter|
         - parameter = parameter.first if parameter.is_a? Array

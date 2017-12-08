@@ -1,0 +1,17 @@
+- if notice.present?
+  .callout.primary
+    - [notice].flatten.each do |msg|
+      = msg
+      br
+
+- if alert.present?
+  .callout.warning
+    - [alert].flatten.each do |msg|
+      = msg
+      br
+
+- if defined? record and record.errors.present?
+  .callout.warning
+    - record.errors.full_messages.each do |error|
+      = error
+      br
