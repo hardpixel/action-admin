@@ -79,7 +79,7 @@ module ActionAdmin
       }
 
       custom = ActionAdmin.config.menus.send(:"topbar_#{position}")
-      items  = items[position].merge(Hash(custom))
+      items  = items[position].merge(Hash(custom).symbolize_keys)
 
       smart_navigation_for items, options
     end
