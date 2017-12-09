@@ -48,6 +48,17 @@ module ActionAdmin
           @admin[:wrapper_mappings] && @admin[:wrapper_mappings][input_type]
         end
       end
+
+      # Find namespaced input
+      def attempt_mapping_with_custom_namespace(input_name)
+        ['ActionAdmin', 'Admin'].each do |namespace|
+          if (mapping = attempt_mapping(input_name, namespace.constantize))
+            return mapping
+          end
+        end
+
+        nil
+      end
     end
   end
 end
