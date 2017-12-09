@@ -25,5 +25,18 @@ module ActionAdmin
       set_meta_tags tags
       display_meta_tags
     end
+
+    def admin_present(record, presenter=nil)
+      record     = record.new if record.respond_to? :new
+      class_name = record.class.name
+      presenter  = presenter || "Admin::#{class_name}Presenter"
+      presenter  = "#{presenter}".safe_constantize || 'ActionAdmin::Presenter'.constantize
+
+      presenter.new(record, self)
+    end
+
+    def admin_present_many(records, presenter=nil)
+      records.to_a.map { |r| admin_present(r, presenter) }
+    end
   end
 end
