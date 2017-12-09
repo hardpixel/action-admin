@@ -3,31 +3,21 @@
 
 - else
   .panel
-    .panel-header = action_name.titleize
+    .panel-header
+      = action_name.titleize
+
     .panel-content.padding-0.border-none
-      table.unstriped.margin-0 data-table-checkbox=""
+      table.unstriped.margin-0
         thead
           tr
-            - permitted_params.first(1).each do |parameter|
-              - if current_record.respond_to? parameter
-                - parameter = parameter.first if parameter.is_a? Array
-                - parameter = parameter.keys.first if parameter.is_a? Hash
-                th.expand = parameter.to_s.titleize
-
-            th.shrink.actions Actions
+            = admin_present(current_model).render_attributes_labels(:th)
+            th = 'Actions'
 
         tbody
-          - current_records.each do |record|
+          - admin_present_many(current_records).each do |record|
             tr
-              - permitted_params.first(1).each do |parameter|
-                - parameter = parameter.first if parameter.is_a? Array
-                - parameter = parameter.keys.first if parameter.is_a? Hash
-
-                - if record.respond_to? parameter
-                  td.expand = attribute_for record, parameter
-
-              td.shrink.actions
-                = admin_table_action_links record
+              = record.render_attributes(:td, class: 'expand')
+              = record.action_links(:td, class: 'shrink actions')
 
     - if current_records.respond_to? :current_page
       .panel-footer
