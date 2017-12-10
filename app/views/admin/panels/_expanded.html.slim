@@ -1,0 +1,11 @@
+.panel
+  - if title
+    .panel-header = title
+
+  - if content
+    .panel-content.padding-0.border-none
+      = content
+
+  - if footer
+    .panel-footer
+      = footer
