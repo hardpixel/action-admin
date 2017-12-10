@@ -6,9 +6,9 @@ module ActionAdmin
       input_html_options[:class]       ||= []
       input_html_options[:class]        += ['small', 'edit-input']
 
-      wrapper_options = { class: 'inline-edit-box', data: { inline_edit_box: '' } }
+      opts = { class: 'inline-edit-box', data: { inline_edit_box: '' } }
 
-      template.content_tag(:div, wrapper_options) do
+      template.content_tag(:div, opts) do
         template.concat preview_link
         template.concat super
         template.concat edit_button
@@ -20,25 +20,29 @@ module ActionAdmin
       template.send(options[:url], input_value)
     end
 
+    def prefix(text)
+      "#{raw_label_text}: #{text}"
+    end
+
     def input_value
       object.try(attribute_name)
     end
 
+    def empty_value
+      prefix('Not defined')
+    end
+
     def value_pattern
-      "#{url}".sub("#{input_value}", '[val]')
+      prefix "#{url}".sub("#{input_value}", '[val]')
     end
 
     def preview_value
-      input_value.present? ? url : 'Not defined'
-    end
-
-    def preview_text
-      "#{raw_label_text}: #{preview_value}"
+      input_value.present? ? prefix(url) : empty_value
     end
 
     def preview_link
-      data = { preview: '', value: value_pattern, placeholder: "#{raw_label_text}: Not defined" }
-      template.link_to preview_text, url, target: :_blank, class: 'edit-preview', data: data
+      data = { preview: '', value: value_pattern, placeholder: empty_value }
+      template.link_to preview_value, url, target: :_blank, class: 'edit-preview text-small', data: data
     end
 
     def edit_button
