@@ -1,8 +1,13 @@
 = admin_form_for([:admin, current_record]) do |f|
   = f.error_notification
 
-  = admin_present(current_record).render_panels(f)
-  = f.button :submit, class: 'margin-0'
+  .page-content
+    .content
+      = admin_present(current_record).render_panels(form: f)
+
+    .sidebar
+      = f.button :submit, class: 'large expanded'
+      = admin_present(current_record).render_panels(form: f, context: :sidebar)
 
   / .panel
   /   .panel-header.border

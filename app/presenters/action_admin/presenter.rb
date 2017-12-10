@@ -97,8 +97,17 @@ module ActionAdmin
       @context.render template, options
     end
 
-    def render_panels(form)
-      panels.map { |i, o| render_panel(form, o) }.join.html_safe
+    def render_panels(options={})
+      form    = options[:form]
+      context = options[:context]
+
+      if context.blank?
+        items = panels.select { |_i, o| o[:context].blank? }
+      else
+        items = panels.select { |_i, o| o[:context] == context }
+      end
+
+      items.map { |_i, o| render_panel(form, o) }.join.html_safe
     end
   end
 end
