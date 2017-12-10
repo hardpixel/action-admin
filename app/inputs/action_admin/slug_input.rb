@@ -42,7 +42,7 @@ module ActionAdmin
 
     def preview_link
       data = { preview: '', value: value_pattern, placeholder: empty_value }
-      template.link_to preview_value, url, target: :_blank, class: 'edit-preview text-small', data: data
+      template.content_tag :small, preview_value, class: 'edit-preview', data: data
     end
 
     def edit_button
