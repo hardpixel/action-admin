@@ -59,5 +59,32 @@ module ActionAdmin
         @context.admin_table_action_links(@record)
       end
     end
+
+    def fields
+      self.record_fields
+    end
+
+    def render_field(form, field, options={})
+      form.input field, Hash(options)
+    end
+
+    def render_fields(form)
+      fields.map { |f, o| render_field(form, f, 0) }.join.html_safe
+    end
+
+    def panels
+      self.record_panels
+    end
+
+    def render_panel(form, options={})
+      template = "admin/panels/#{options.fetch :template, 'default'}"
+      content = Array(options[:fields]).map { |f| render_field(form, f, fields[f]) }.join.html_safe
+
+      @context.render template, layout: false, content: content, title: options[:title], footer: options[:footer]
+    end
+
+    def render_panels(form)
+      panels.map { |i, o| render_panel(form, o) }.join.html_safe
+    end
   end
 end
