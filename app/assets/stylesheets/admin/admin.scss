@@ -1,2 +1,12 @@
 @import "foundation-components";
 @import "bedrock-components";
+
+.panel {
+
+  .input:last-child {
+
+    input, textarea, select {
+      margin-bottom: 0;
+    }
+  }
+}
