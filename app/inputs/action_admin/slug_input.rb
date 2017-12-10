@@ -17,7 +17,7 @@ module ActionAdmin
     end
 
     def url
-      template.send(options[:url], input_value)
+      template.try(options[:url], input_value) unless object.new_record?
     end
 
     def prefix(text)
