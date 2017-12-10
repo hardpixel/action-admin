@@ -5,9 +5,5 @@ module ActionAdmin
       input_html_options[:data].merge!({ tiny_mce_editor: '' })
       super
     end
-
-    def label
-      ''
-    end
   end
 end

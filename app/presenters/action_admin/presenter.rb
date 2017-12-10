@@ -78,9 +78,23 @@ module ActionAdmin
 
     def render_panel(form, options={})
       template = "admin/panels/#{options.fetch :template, 'default'}"
-      content = Array(options[:fields]).map { |f| render_field(form, f, fields[f]) }.join.html_safe
+      content = Array(options[:fields]).map do |f|
+        opts = fields[f]
 
-      @context.render template, layout: false, content: content, title: options[:title], footer: options[:footer]
+        opts[:label] = false if options[:labels] == false
+        opts[:label] = true  if Array(options[:labels]).include?(f)
+
+        render_field(form, f, opts)
+      end
+
+      options = {
+        layout:  false,
+        content: content.join.html_safe,
+        title:   options[:title],
+        footer:  options[:footer]
+      }
+
+      @context.render template, options
     end
 
     def render_panels(form)
