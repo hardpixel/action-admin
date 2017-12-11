@@ -1,7 +1,8 @@
 module ActionAdmin
   class Config < Hashie::Dash
     property :app_name, default: 'Action Admin'
-    property :menus, default: Hashie::Mash.new
+    property :app_urls, default: :web_url
+    property :menus,    default: Hashie::Mash.new
 
     def menu(name, &block)
       if self.menus.send(:"#{name}").nil?

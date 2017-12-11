@@ -17,7 +17,8 @@ module ActionAdmin
     end
 
     def url
-      template.try(options[:url], input_value) unless object.new_record?
+      method = options.fetch :url, ActionAdmin.config.app_urls
+      template.try(method, object) unless object.new_record?
     end
 
     def prefix(text)
