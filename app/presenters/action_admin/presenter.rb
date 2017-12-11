@@ -101,13 +101,20 @@ module ActionAdmin
       form    = options[:form]
       context = options[:context]
 
-      if context.blank?
-        items = panels.select { |_i, o| o[:context].blank? }
-      else
-        items = panels.select { |_i, o| o[:context] == context }
-      end
+      panels_for_context(context).map { |_i, o| render_panel(form, o) }.join.html_safe
+    end
 
-      items.map { |_i, o| render_panel(form, o) }.join.html_safe
+    def sorted_panels
+      items = [:high, :medium, :low]
+      panels.sort_by { |_i, o| [items.index(o[:priority]).to_i, o[:order].to_i] }
+    end
+
+    def panels_for_context(context=nil)
+      if context.blank?
+        sorted_panels.select { |_i, o| o[:context].blank? }
+      else
+        sorted_panels.select { |_i, o| o[:context] == context }
+      end
     end
   end
 end
