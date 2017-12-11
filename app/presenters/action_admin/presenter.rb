@@ -65,7 +65,13 @@ module ActionAdmin
     end
 
     def render_field(form, field, options={})
-      form.input field, Hash(options)
+      association = options[:association]
+
+      if association.present?
+        form.association field, Hash(options).except(:association)
+      else
+        form.input field, Hash(options)
+      end
     end
 
     def render_fields(form)
