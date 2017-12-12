@@ -1,0 +1,24 @@
+#media-modal.reveal.full.reveal-panel data-media-reveal="" data-media-url=admin_media_url(format: :json)
+  .panel
+    .panel-header.border
+      = 'Add Media'
+      button.close-button aria-label='Close modal' data-close="" type="button"
+        span aria-hidden="true" &times;
+
+    .panel-content.border
+      .attachments-grid data-list-select=""
+
+    .panel-footer
+      .grid-x
+        .cell.auto
+          button.button.hollow.alert.margin-0 aria-label='Close modal' data-close="" type="button" = 'Close'
+
+        .cell.shrink
+          button.button.margin-0 aria-label='Insert Media' data-insert="" type="button" = 'Insert Media'
+
+script#media-modal-item-template type="text/template"
+  .attachment data-list-item=""
+    .thumbnail
+      img data-src="file.small.url" data-url="#{root_url.chomp('/')}[src]" src=asset_url('admin/upload-preview.svg')
+      span.filename data-text="name"
+      span.check-button.mdi.mdi-check

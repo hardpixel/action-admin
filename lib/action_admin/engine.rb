@@ -11,7 +11,8 @@ module ActionAdmin
         app.config.assets.paths << root.join('app', 'assets', 'images', sf).to_s
       end
 
-      app.config.assets.precompile += %w(admin/application.js admin/application.css admin/tinymce-editor.css images/admin/*.*)
+      app.config.assets.precompile += %w(admin/application.js admin/application.css admin/tinymce-editor.css)
+      app.config.assets.precompile += %w(images/admin/*.* admin/*.svg admin/*.png)
     end
 
     initializer 'action_admin', before: :load_config_initializers do
