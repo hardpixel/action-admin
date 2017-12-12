@@ -4,3 +4,19 @@
 @include foundation-typography;
 @include foundation-button;
 @include foundation-forms;
+
+
+// Custom styles
+
+body {
+  margin: $global-margin / 2;
+  font-size: inherit !important;
+}
+
+img[data-mce-style*="float: left"] {
+  margin-right: $global-margin;
+}
+
+img[data-mce-style*="float: right"] {
+  margin-left: $global-margin;
+}
