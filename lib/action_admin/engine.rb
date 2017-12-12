@@ -10,7 +10,7 @@ module ActionAdmin
         app.config.assets.paths << root.join('app', 'assets', 'stylesheets', sf).to_s
       end
 
-      app.config.assets.precompile += %w(admin/application.js admin/application.css)
+      app.config.assets.precompile += %w(admin/application.js admin/application.css admin/images/*.*)
     end
 
     initializer 'action_admin', before: :load_config_initializers do
