@@ -44,7 +44,7 @@ module ActionAdmin
       content_tag :script, attachment, id: "#{input_html_id}-item-template", type: 'text/template'
     end
 
-    def label
+    def label(wrapper_options)
       ''
     end
   end

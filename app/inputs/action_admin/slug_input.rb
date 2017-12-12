@@ -56,7 +56,7 @@ module ActionAdmin
       template.content_tag :span, nil, opts
     end
 
-    def label
+    def label(wrapper_options)
       ''
     end
   end

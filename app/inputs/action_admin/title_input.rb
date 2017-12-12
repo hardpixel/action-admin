@@ -9,7 +9,7 @@ module ActionAdmin
       super
     end
 
-    def label
+    def label(wrapper_options)
       ''
     end
   end
