@@ -51,8 +51,8 @@ module ActionAdmin
       return {} unless context.controller.respond_to? :permitted_params
 
       {
-        show:    { label: 'View',   icon: 'eye',        url: :record_path },
-        index:   { label: 'Back',   icon: 'arrow-left', url: :records_path,     html: { class: 'inactive' } },
+        show:    { label: 'View',   icon: 'eye',        url: :record_path,      html: { class: 'success' } },
+        index:   { label: 'Back',   icon: 'arrow-left', url: :records_path,     html: { class: 'secondary' } },
         new:     { label: 'New',    icon: 'plus',       url: :new_record_path,  html: { class: 'success' } },
         edit:    { label: 'Edit',   icon: 'pencil',     url: :edit_record_path, html: { class: 'warning' } },
         destroy: { label: 'Delete', icon: 'delete',     url: :record_path,      html: { class: 'alert' }, method: 'delete' }
