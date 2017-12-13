@@ -1,12 +1,63 @@
 @import "foundation-components";
 @import "bedrock-components";
 
+
+// Panels
+
 .panel {
 
   .input:last-child {
 
     input, textarea, select, .select2 {
       margin-bottom: 0;
+    }
+  }
+}
+
+
+// Invalid Inputs
+
+.input.error {
+
+  input, textarea, select {
+    @include form-input-error;
+  }
+
+  &.attachment {
+    @include form-input-error;
+    border: 1px solid;
+    color: $alert-color;
+    position: relative;
+    padding-bottom: $global-padding * 2;
+
+    .no-content {
+      color: $alert-color;
+    }
+
+    .form-error {
+      text-align: center;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: $alert-color;
+      color: $white;
+      margin: 0;
+      padding: ($global-padding / 4) ($global-padding / 2);
+    }
+  }
+
+}
+
+.input-group-list {
+
+  .input.error {
+
+    .form-error {
+      margin: 0;
+      background: $alert-color;
+      color: $white;
+      padding: ($global-padding / 4) ($global-padding / 2);
     }
   }
 }
