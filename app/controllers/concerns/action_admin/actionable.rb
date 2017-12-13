@@ -6,7 +6,10 @@ module ActionAdmin
       include Controller
 
       class_attribute :action_header
-      self.action_header = Header.new
+      class_attribute :_action_templates
+
+      self.action_header     = Header.new
+      self._action_templates = {}
     end
 
     class_methods do
@@ -14,6 +17,12 @@ module ActionAdmin
         self.action_header.action(action)
         self.action_header.title(title)
         self.action_header.action(nil)
+      end
+
+      def action_template(action, template, options={})
+        self._action_templates = self._action_templates.merge(
+          action => options.merge(partial: "admin/templates/#{template}")
+        )
       end
 
       def header(action, &block)

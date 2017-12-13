@@ -38,5 +38,13 @@ module ActionAdmin
     def admin_present_many(records, presenter=nil)
       records.to_a.map { |r| admin_present(r, presenter) }
     end
+
+    def admin_render_template(fallback)
+      template = Hash(controller._action_templates[:"#{action_name}"])
+      partial  = template.fetch :partial, fallback
+      options  = template.except(:partial)
+
+      render partial, options
+    end
   end
 end
