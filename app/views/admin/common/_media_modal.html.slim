@@ -1,12 +1,47 @@
-#media-modal.reveal.full.reveal-panel data-media-reveal="" data-media-url=admin_media_url(format: :json)
+ruby:
+  current_record = Medium.new
+  options = {
+    dropzone_upload:    "",
+    clickable:          "#media-modal-upload-button",
+    previews_container: "#media-modal-upload-previews",
+    param_name:         "medium[file]",
+    thumbnail_height:   "300",
+    thumbnail_width:    "300"
+  }
+
+#media-modal.reveal.full.reveal-panel data-media-reveal="" data-media-url=admin_media_url(per_page: 10000, format: :json)
   .panel
     .panel-header.border
       = 'Add Media'
       button.close-button aria-label='Close modal' data-close="" type="button"
         span aria-hidden="true" &times;
 
-    .panel-content.border
-      .attachments-grid data-list-select=""
+    .panel-header.border.padding-0
+      ul#media-modal-tabs.tabs.padding-0.border-none data-tabs=""
+        li.tabs-title.is-active
+          a aria-selected="true" href="#media-modal-library"
+            i.mdi.mdi-play-circle-outline
+            | Library
+        li.tabs-title
+          a href="#media-modal-uploads"
+            i.mdi.mdi-upload
+            | Upload
+
+    .panel-content.border.padding-0
+      .tabs-content.border-none.padding-0 data-tabs-content="media-modal-tabs"
+        #media-modal-library.tabs-panel.is-active
+          .attachments-grid data-list-select=""
+        #media-modal-uploads.tabs-panel
+          = admin_form_for([:admin, current_record], html: { id: 'media-modal-upload', class: 'dropzone', data: options }) do |f|
+            = f.input :file, as: :hidden
+
+            .dz-message.bordered.margin-bottom-1
+              .no-content
+                i.mdi.mdi-upload
+                span = 'Drop files here to upload'
+                a#media-modal-upload-button.button.success.hollow.margin-top-1 = 'Select Files'
+
+            #media-modal-upload-previews.attachments-grid
 
     .panel-footer
       .grid-x

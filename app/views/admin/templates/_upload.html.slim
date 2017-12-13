@@ -20,15 +20,3 @@ ruby:
           a#media-upload-button.button.success.hollow.margin-top-1 = 'Select Files'
 
   #media-upload-previews.attachments-grid
-
-script#dropzone-preview-template type="text/template"
-  .attachment
-    .thumbnail
-      img data-dz-thumbnail="" src=asset_url('admin/upload-preview.svg')
-      span.filename data-dz-name=""
-      span.size data-dz-size=""
-      .progress.success
-        span.progress-meter data-dz-uploadprogress=""
-      i.icon-success.mdi.mdi-check
-      i.icon-error.mdi.mdi-close
-      .message data-dz-errormessage=""
