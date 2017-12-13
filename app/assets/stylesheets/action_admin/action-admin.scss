@@ -6,9 +6,16 @@
 
 .panel {
 
-  .input:last-child {
+  .input:last-child:not(.error) {
 
     input, textarea, select, .select2 {
+      margin-bottom: 0;
+    }
+  }
+
+  .input.error:last-child {
+
+    .form-error {
       margin-bottom: 0;
     }
   }
