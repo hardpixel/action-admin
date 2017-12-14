@@ -25,7 +25,11 @@ module ActionAdmin
     end
 
     def hidden_input
-      @builder.hidden_field("#{attribute_name}_cache")
+      if object.respond_to?("#{attribute_name}_cache")
+        @builder.hidden_field("#{attribute_name}_cache")
+      else
+        ''.html_safe
+      end
     end
 
     def attr_html_id
