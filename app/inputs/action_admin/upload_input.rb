@@ -16,7 +16,7 @@ module ActionAdmin
       content = content_tag :div, icon + span + file_input + button, class: 'no-content'
       image   = attachment(attachment_url) if attachment_url.present?
 
-      content_tag(:div, content, class: 'dz-message bordered') +
+      content_tag(:div, content, class: 'dz-message bordered hide') +
       content_tag(:div, image, id: "#{input_html_id}-preview")
     end
 
@@ -45,8 +45,8 @@ module ActionAdmin
     end
 
     def attachment(image_url=nil)
-      image  = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', 'dz-thumbnail' => ''
-      button = content_tag :a, 'Remove File', class: 'button alert small hollow margin-0', 'dz-remove' => ''
+      image  = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { dz_thumbnail: '' }
+      button = content_tag :a, 'Remove File', class: 'button alert small hollow margin-0', data: { dz_remove: '' }
 
       content_tag :div, hidden_input + image + button, class: 'text-center'
     end
