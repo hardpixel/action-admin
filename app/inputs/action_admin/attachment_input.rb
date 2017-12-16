@@ -1,5 +1,5 @@
 module ActionAdmin
-  class AttachmentInput < SimpleForm::Inputs::StringInput
+  class AttachmentInput < SimpleForm::Inputs::Base
     def input(wrapper_options)
       modal = options.fetch :modal, 'media-modal'
       html  = content_tag :div, input_placeholder, id: input_html_id, data: { media_attach: modal }
