@@ -19,7 +19,7 @@ module ActionAdmin
         template.concat score_hidden_field
         template.concat slug_hidden_field if options[:slug_input].present?
 
-        template.concat seo_keyword_input
+        template.concat seo_keyword
         template.concat seo_preview
         template.concat seo_output
       end
@@ -36,7 +36,7 @@ module ActionAdmin
       end
     end
 
-    def seo_keyword_input
+    def seo_keyword
       content = @builder.text_field(:seo_keywords, placeholder: 'Enter focus keyword...', data: { seo_keyword: '' })
       content_tag :div, content, class: 'seo-keyword'
     end
