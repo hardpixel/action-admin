@@ -34,7 +34,11 @@ module ActionAdmin
     end
 
     def value_pattern
-      prefix "#{url}".sub("#{input_value}", '[val]')
+      if url.present?
+        prefix "#{url}".sub("#{input_value}", '[val]')
+      else
+        prefix "#{template.root_url}[val]"
+      end
     end
 
     def preview_value

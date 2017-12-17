@@ -3,10 +3,11 @@ module ActionAdmin
     def input(wrapper_options)
       seo_data_options = {
         seo_analysis: '',
-        content:      content_html_id,
+        base_url:     base_url,
+        text:         text_html_id,
         slug:         id_from_html(slug_hidden_field),
         title:        id_from_html(title_hidden_field),
-        description:  id_from_html(description_hidden_field),
+        meta:         id_from_html(description_hidden_field),
         keywords:     id_from_html(keywords_hidden_field),
         score:        id_from_html(score_hidden_field)
       }
@@ -24,14 +25,24 @@ module ActionAdmin
       end
     end
 
+    def base_url
+      url_value = object.try(options.fetch :slug, :slug)
+      method    = options.fetch :url, ActionAdmin.config.app_urls
+
+      if object.new_record?
+        template.root_url.chomp('/')
+      else
+        template.try(method, object).to_s.sub(url_value, '').chomp('/')
+      end
+    end
+
     def seo_keyword_input
       content = @builder.text_field(:seo_keywords, placeholder: 'Enter focus keyword...', data: { seo_keyword: '' })
       content_tag :div, content, class: 'seo-keyword'
     end
 
     def seo_preview
-      icons = { icon_desktop: 'mdi mdi-desktop-mac', icon_mobile: 'mdi mdi-cellphone', icon_edit: 'mdi mdi-pencil' }
-      content_tag :div, nil, class: 'seo-preview', data: { seo_preview: '' }.merge(icons)
+      content_tag :div, nil, class: 'seo-preview', data: { seo_preview: '' }
     end
 
     def seo_output
@@ -40,27 +51,27 @@ module ActionAdmin
 
     def title_hidden_field
       attrib = options.fetch :title, :seo_title
-      @builder.hidden_field(attrib)
+      @builder.hidden_field(attrib, data: { default: attribute_default(attrib) })
     end
 
     def description_hidden_field
       attrib = options.fetch :description, :seo_description
-      @builder.hidden_field(attrib)
+      @builder.hidden_field(attrib, data: { default: attribute_default(attrib) })
     end
 
     def keywords_hidden_field
       attrib = options.fetch :keywords, :seo_keywords
-      @builder.hidden_field(attrib)
+      @builder.hidden_field(attrib, data: { default: attribute_default(attrib) })
     end
 
     def slug_hidden_field
       attrib = options.fetch :slug, :slug
-      @builder.hidden_field(attrib)
+      @builder.hidden_field(attrib, data: { default: attribute_default(attrib) })
     end
 
     def score_hidden_field
       attrib = options.fetch :score, :seo_keywords
-      @builder.hidden_field(attrib)
+      @builder.hidden_field(attrib, data: { default: attribute_default(attrib) })
     end
 
     def label(wrapper_options)
@@ -69,12 +80,20 @@ module ActionAdmin
 
     private
 
-      def content_html_id
-        attrib = options.fetch :content, detect_content_attribute
+      def attribute_default(attrib)
+        items = object.try(attribute_name).select do |k, v|
+          "#{k}" == "#{attrib}" || "#{k}" == "#{attrib}".sub('seo_', '')
+        end
+
+        items.values.first
+      end
+
+      def text_html_id
+        attrib = options.fetch :content, detect_text_attribute
         id_from_html @builder.hidden_field(attrib)
       end
 
-      def detect_content_attribute
+      def detect_text_attribute
         items  = ['content', 'description', 'body']
         attrib = object.class.attribute_names.select { |n| n.in? items }
 
