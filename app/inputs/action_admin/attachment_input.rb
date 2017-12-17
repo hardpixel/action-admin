@@ -35,9 +35,13 @@ module ActionAdmin
 
     def attachment(image_url=nil)
       image  = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { src: 'file.preview.url', url: "#{template.root_url.chomp('/')}[src]" }
-      button = content_tag :a, 'Remove Thumbnail', class: 'button alert small hollow margin-0', data: { remove: '' }
+      remove = content_tag :a, 'Remove', class: 'button alert small hollow margin-0', data: { remove: '' }
+      change = content_tag :a, 'Change', class: 'button success small hollow margin-0', data: { open: input_html_id }
+      remove = content_tag :div, remove, class: 'cell auto text-left'
+      change = content_tag :div, change, class: 'cell shrink'
+      buttons = content_tag :div, remove + change, class: 'panel-section expanded border last grid-x'
 
-      content_tag :div, hidden_input + image + button, class: 'attachment text-center', data: { list_item: '' }
+      content_tag :div, hidden_input + image + buttons, class: 'attachment text-center', data: { list_item: '' }
     end
 
     def input_template
