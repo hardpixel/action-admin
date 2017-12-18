@@ -1,0 +1,19 @@
+= admin_form_for([:admin, current_record]) do |f|
+  = f.error_notification
+
+  / .page-content
+  /   .sidebar
+  /     .panel
+  /       .panel-header.border
+  /         = 'Menu'
+  /
+  /       .panel-content
+  /         = admin_settings_menu collection, label_method
+  /
+  /   .content
+  /     = admin_present(current_record).render_panels(form: f)
+  /     = f.button :submit
+
+  = admin_settings_menu collection, label_method
+  = admin_present(current_record).render_panels(form: f)
+  = f.button :submit

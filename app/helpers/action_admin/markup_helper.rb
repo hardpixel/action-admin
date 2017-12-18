@@ -27,6 +27,29 @@ module ActionAdmin
       content_tag :div, info + links, class: 'grid-x'
     end
 
+    def admin_settings_menu(records, label_method=:id)
+      options = {
+        menu_class:           'tabs menu margin-bottom-2',
+        item_class:           'tabs-title',
+        separator_class:      'is-separator',
+        submenu_parent_class: 'has-children',
+        submenu_class:        'vertical menu nested',
+        active_class:         'active',
+        active_submenu_class: 'active',
+        icon_prefix:          'mdi mdi-',
+        icon_position:        'left'
+      }
+
+      items = records.map do |record|
+        label = record.send(label_method)
+        url   = edit_record_url(record)
+
+        [:"#{label.downcase.underscore}", { label: label, url: url }]
+      end
+
+      smart_navigation_for Hash[items], options
+    end
+
     def admin_primary_menu
       options = {
         menu_class:           'vertical menu icons icon-left accordion-menu',
