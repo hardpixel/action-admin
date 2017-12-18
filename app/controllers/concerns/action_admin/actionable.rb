@@ -19,6 +19,12 @@ module ActionAdmin
         self.action_header.action(nil)
       end
 
+      def action_links(action, links=[])
+        self.action_header.action(action)
+        self.action_header.links(links)
+        self.action_header.action(nil)
+      end
+
       def action_template(action, template, options={})
         self._action_templates = self._action_templates.merge(
           action => options.merge(partial: "admin/templates/#{template}")

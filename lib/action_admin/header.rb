@@ -2,9 +2,11 @@ module ActionAdmin
   class Header
     class_attribute :actions
     class_attribute :current_actions
+    class_attribute :active_links
 
     def initialize
-      self.actions = {}
+      self.actions      = {}
+      self.active_links = {}
     end
 
     def action(names)
@@ -19,15 +21,22 @@ module ActionAdmin
       current_actions.each { |a| add_action_key(a, :links, options, true) }
     end
 
+    def links(names)
+      current_actions.each { |a| self.active_links[a] = Array(names) }
+    end
+
     def action_title(name, context)
       title = Hash(actions[:"#{name}"]).fetch :title, default_title(context)
       evaluate_value(title, context)
     end
 
     def action_links(name, context)
-      links = Hash(actions[:"#{name}"]).fetch :links, default_action_links(name, context)
+      active = self.active_links[:"#{name}"]
+      links  = Hash(actions[:"#{name}"]).fetch :links, default_action_links(name, context)
+      links  = links.select { |k, _v| k.in? active } if active.is_a? Array
+      links  = links.values if links.is_a? Hash
 
-      Array(links).map do |link|
+      Array(links).reject(&:blank?).map do |link|
         Hash[link.map { |k, v| [k, evaluate_value(v, context)] }]
       end
     end
@@ -44,14 +53,16 @@ module ActionAdmin
       setup = { index: :new, new: :index, show: [:index, :edit, :destroy], edit: [:index, :show, :destroy] }
       links = default_links(context)
 
-      Array(setup[:"#{name}"]).map { |l| links[l] }.reject(&:nil?)
+      Hash[Array(setup[:"#{name}"]).map { |l| [l, links[l]] }.reject(&:nil?)]
     end
 
     def default_links(context)
       return {} unless context.controller.respond_to? :permitted_params
 
+      show = -> { method(ActionAdmin.config.app_urls).call(current_record) }
+
       {
-        show:    { label: 'View',   icon: 'eye',        url: :record_path,      html: { class: 'success' } },
+        show:    { label: 'View',   icon: 'eye',        url: show, html: { class: 'success', target: :_blank } },
         index:   { label: 'Back',   icon: 'arrow-left', url: :records_path,     html: { class: 'secondary' } },
         new:     { label: 'New',    icon: 'plus',       url: :new_record_path,  html: { class: 'success' } },
         edit:    { label: 'Edit',   icon: 'pencil',     url: :edit_record_path, html: { class: 'warning' } },
