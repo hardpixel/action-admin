@@ -50,7 +50,7 @@ module ActionAdmin
     end
 
     def default_action_links(name, context)
-      setup = { index: :new, new: :index, show: [:index, :edit, :destroy], edit: [:index, :show, :destroy] }
+      setup = { index: :new, new: :index, show: [:index, :app, :edit, :destroy], edit: [:index, :app, :show, :destroy] }
       links = default_links(context)
 
       Hash[Array(setup[:"#{name}"]).map { |l| [l, links[l]] }.reject(&:nil?)]
@@ -59,10 +59,11 @@ module ActionAdmin
     def default_links(context)
       return {} unless context.controller.respond_to? :permitted_params
 
-      show = -> { method(ActionAdmin.config.app_urls).call(current_record) }
+      show = -> { method(ActionAdmin.config.app_urls).call(current_record) rescue nil }
 
       {
-        show:    { label: 'View',   icon: 'eye',        url: show, html: { class: 'success', target: :_blank } },
+        app:     { label: 'Web',    icon: 'web',        url: show,              html: { class: 'info', target: :_blank } },
+        # show:    { label: 'View',   icon: 'eye',        url: :record_path,      html: { class: 'success' } },
         index:   { label: 'Back',   icon: 'arrow-left', url: :records_path,     html: { class: 'secondary' } },
         new:     { label: 'New',    icon: 'plus',       url: :new_record_path,  html: { class: 'success' } },
         edit:    { label: 'Edit',   icon: 'pencil',     url: :edit_record_path, html: { class: 'warning' } },

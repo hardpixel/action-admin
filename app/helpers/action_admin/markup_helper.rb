@@ -102,27 +102,33 @@ module ActionAdmin
     def admin_action_links(action=nil)
       name  = action || action_name
       links = controller.action_header.action_links(name, self).map do |link|
-        opts    = Hash(link[:html]).merge(method: link[:method])
-        classes = "button small hollow #{opts[:class]}".strip
-        label   = admin_icon(link[:icon], text: link[:label])
+        unless link[:url].nil?
+          opts    = Hash(link[:html]).merge(method: link[:method])
+          classes = "button small hollow #{opts[:class]}".strip
+          label   = admin_icon(link[:icon], text: link[:label])
 
-        link_to label, link[:url], opts.merge(class: classes)
+          link_to label, link[:url], opts.merge(class: classes)
+        end
       end
 
-      links.join(' ').html_safe
+      links.reject(&:blank?).join(' ').html_safe
     end
 
     def admin_table_action_links(record, actions=nil)
+      app_url  = method(ActionAdmin.config.app_urls).call(record) rescue nil
+      app_link = link_to admin_icon('web'), app_url, title: 'Web', target: :_blank, class: 'button hollow info' if app_url.present?
+
       options = {
-        show:    { label: admin_icon('eye'), title: 'View', class: 'success' },
+        # show:    { label: admin_icon('eye'), title: 'View', class: 'success' },
         edit:    { label: admin_icon('pencil'), title: 'Edit' },
         destroy: { label: admin_icon('delete'), title: 'Delete', class: 'alert' }
       }
 
-      options = options.select { |k, _v| k.in? actions } if actions.present?
-      options = options.merge(html: { class: 'button hollow' })
+      options   = options.select { |k, _v| k.in? actions } if actions.present?
+      options   = options.merge(html: { class: 'button hollow' })
+      all_links = record_links_to record, options
 
-      record_links_to record, options
+      app_link.nil? ? all_links : (app_link + all_links)
     end
   end
 end
