@@ -14,6 +14,9 @@
   /     = admin_present(current_record).render_panels(form: f)
   /     = f.button :submit
 
-  = admin_settings_menu collection, label_method
+  .panel
+    .panel-content.padding-0
+      = admin_settings_menu collection, label_method
+
   = admin_present(current_record).render_panels(form: f)
   = f.button :submit
