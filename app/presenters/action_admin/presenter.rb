@@ -16,7 +16,7 @@ module ActionAdmin
       if attributes.keys.any?
         attributes.keys
       else
-        items = ['title', 'name', 'email', 'id']
+        items = ['title', 'name', 'email', 'id', 'var']
         names = @record.class.attribute_names.select { |i| i.in? items }
 
         names.sort_by { |i| items.index i }.first(1)
@@ -61,7 +61,11 @@ module ActionAdmin
     end
 
     def fields
-      self.record_fields
+      if self.record_fields.any?
+        self.record_fields
+      else
+        Hash[@record.permitted_attributes.map { |e| [:"#{e}", {}] }]
+      end
     end
 
     def render_field(form, field, options={})
@@ -79,14 +83,18 @@ module ActionAdmin
     end
 
     def panels
-      self.record_panels
+      if self.record_panels.any?
+        self.record_panels
+      else
+        { attributes: { title: 'Attributes', fields: fields.keys } }
+      end
     end
 
     def render_panel(form, options={})
       template = "admin/panels/#{options.fetch :template, 'default'}"
-      content = Array(options[:fields]).map { |f| render_panel_field(form, f, options) }
-      footer = Array(Hash(options[:footer])[:fields]).map { |f| render_panel_field(form, f, options) }.join.html_safe
-      footer = nil if footer.blank?
+      content  = Array(options[:fields]).map { |f| render_panel_field(form, f, options) }
+      footer   = Array(Hash(options[:footer])[:fields]).map { |f| render_panel_field(form, f, options) }.join.html_safe
+      footer   = nil if footer.blank?
 
       options = {
         layout:  false,
