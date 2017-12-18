@@ -29,22 +29,16 @@ module ActionAdmin
 
     def admin_settings_menu(records, label_method=:id)
       options = {
-        menu_class:           'tabs menu margin-bottom-2',
-        item_class:           'tabs-title',
-        separator_class:      'is-separator',
-        submenu_parent_class: 'has-children',
-        submenu_class:        'vertical menu nested',
-        active_class:         'active',
-        active_submenu_class: 'active',
-        icon_prefix:          'mdi mdi-',
-        icon_position:        'left'
+        menu_class:    'menu horizontal',
+        active_class:  'active',
+        keep_defaults: false
       }
 
       items = records.map do |record|
         label = record.send(label_method)
         url   = edit_record_url(record)
 
-        [:"#{label.downcase.underscore}", { label: label, url: url }]
+        [:"#{label.downcase.underscore}", { label: label, url: url, html: { class: 'padding-1' } }]
       end
 
       smart_navigation_for Hash[items], options
@@ -54,12 +48,14 @@ module ActionAdmin
       options = {
         menu_class:           'vertical menu icons icon-left accordion-menu',
         menu_html:            { 'data-accordion-menu': '', 'data-submenu-toggle': true },
-        separator_class:      'is-separator',
-        submenu_parent_class: 'has-children',
+        menu_icons:           true,
+        submenu_icons:        false,
         submenu_class:        'vertical menu nested',
         active_class:         'is-current',
         active_submenu_class: 'is-current',
-        icon_prefix:          'mdi mdi-'
+        icon_prefix:          'mdi mdi-',
+        icon_position:        'left',
+        keep_defaults:        false
       }
 
       smart_navigation_for ActionAdmin.config.menus.primary, options
@@ -68,13 +64,11 @@ module ActionAdmin
     def admin_secondary_menu
       options = {
         menu_class:           'vertical menu secondary icons icon-right',
-        separator_class:      'is-separator',
-        submenu_parent_class: 'has-children',
-        submenu_class:        'vertical menu nested',
+        menu_icons:           true,
         active_class:         'is-current',
-        active_submenu_class: 'is-current',
         icon_prefix:          'mdi mdi-',
-        icon_position:        'right'
+        icon_position:        'right',
+        keep_defaults:        false
       }
 
       smart_navigation_for ActionAdmin.config.menus.secondary, options
@@ -91,14 +85,12 @@ module ActionAdmin
       }
 
       options = {
-        menu_class:           'menu icons icon-left',
-        separator_class:      'is-separator',
-        submenu_parent_class: 'has-children',
-        submenu_class:        'vertical menu nested',
-        active_class:         'is-current',
-        active_submenu_class: 'is-current',
-        icon_prefix:          'mdi mdi-',
-        icon_position:        'left'
+        menu_class:    'menu icons icon-left',
+        menu_icons:    true,
+        submenu_class: 'vertical menu nested',
+        icon_prefix:   'mdi mdi-',
+        icon_position: 'left',
+        keep_defaults: false
       }
 
       custom = ActionAdmin.config.menus.send(:"topbar_#{position}")
