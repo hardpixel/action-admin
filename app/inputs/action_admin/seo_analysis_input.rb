@@ -37,7 +37,9 @@ module ActionAdmin
     end
 
     def seo_keyword
-      content = @builder.text_field(:seo_keywords, placeholder: 'Enter focus keyword...', data: { seo_keyword: '' })
+      attrib  = options.fetch :focus_keyword, :seo_focus_keyword
+      content = @builder.text_field(attrib, placeholder: 'Enter focus keyword...', data: { seo_keyword: '' })
+
       content_tag :div, content, class: 'seo-keyword'
     end
 
@@ -70,7 +72,7 @@ module ActionAdmin
     end
 
     def score_hidden_field
-      attrib = options.fetch :score, :seo_keywords
+      attrib = options.fetch :score, :seo_score
       @builder.hidden_field(attrib, data: { default: attribute_default(attrib) })
     end
 
