@@ -135,5 +135,8 @@ module ActionAdmin
         sorted_panels.select { |_i, o| o[:context] == context }
       end
     end
+
+    def render_table
+    end
   end
 end

@@ -15,6 +15,7 @@ module ActionAdmin
   autoload :Config
   autoload :Form
   autoload :Header
+  autoload :Table
 
   # Set attr accessors
   mattr_accessor :config

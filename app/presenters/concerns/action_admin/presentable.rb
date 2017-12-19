@@ -6,10 +6,12 @@ module ActionAdmin
       class_attribute :record_attributes
       class_attribute :record_fields
       class_attribute :record_panels
+      class_attribute :record_tables
 
       self.record_attributes = {}
       self.record_fields     = {}
       self.record_panels     = {}
+      self.record_tables     = {}
     end
 
     class_methods do
@@ -23,6 +25,15 @@ module ActionAdmin
 
       def panel(name, options={})
         self.record_panels = self.record_panels.merge(name => options)
+      end
+
+      def table(name, options={}, &block)
+        new_table = ActionAdmin::Table.new(name, options)
+        new_table.merge(self.record_tables[name])
+
+        yield new_table if block_given?
+
+        self.record_tables = self.record_tables.merge(name => new_table)
       end
     end
   end
