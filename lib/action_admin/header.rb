@@ -42,10 +42,13 @@ module ActionAdmin
     end
 
     def default_title(context)
+      singular = context.controller.try(:instance_name)
+      plural   = context.controller.try(:collection_name)
+
       if context.action_name == 'index'
-        context.controller_name.titleize
+        "#{plural || context.controller_name}".strip.titleize
       else
-        context.action_name.titleize
+        "#{context.action_name} #{singular}".strip.titleize
       end
     end
 
