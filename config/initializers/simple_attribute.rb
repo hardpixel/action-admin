@@ -1,7 +1,8 @@
 SimpleAttribute.setup do |config|
   config.avatar   = { html: { class: 'rounded bordered' } }
+  config.image    = { html: { class: 'thumbnail' }, default_value: 'upload-preview.svg' }
   config.boolean  = { true: 'success', false: 'alert', wrapper: { class: 'label' } }
-  config.wrappers = { badge: { class: 'badge' }, thumbnail: { class: 'thumbnail margin-0' } }
+  config.wrappers = { badge: { class: 'badge' } }
 
   config.wrappers do |wrapper|
     wrapper.label_default   = { class: 'label default' }
