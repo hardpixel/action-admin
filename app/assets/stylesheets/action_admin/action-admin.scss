@@ -68,3 +68,21 @@
     }
   }
 }
+
+
+// Table elements
+
+table {
+
+  .avatar:not(:only-child) {
+    margin-right: 5px;
+  }
+
+  .label {
+    margin-right: 5px;
+
+    a {
+      color: inherit;
+    }
+  }
+}
