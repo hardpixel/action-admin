@@ -27,8 +27,8 @@ module ActionAdmin
       attribute_names.map { |i| @model.human_attribute_name(i) }
     end
 
-    def render_attribute(name)
-      @context.simple_attribute_for(@record, name, Hash(attributes[name]))
+    def render_attribute(name, options={})
+      @context.simple_attribute_for(@record, name, options)
     end
 
     def render_attributes(*args)
@@ -136,7 +136,31 @@ module ActionAdmin
       end
     end
 
-    def render_table
+    # def render_table(table)
+    #   table = self.record_tables[table]
+    # end
+
+    def render_table_header(table)
+      table = self.record_tables[table]
+      cells = []
+
+      table.header.each do |_k, v|
+        cells << @context.content_tag(:th, v[:label], v[:html])
+      end
+
+      cells.join.html_safe
+    end
+
+    def render_table_columns(table)
+      table = self.record_tables[table]
+      cells = []
+
+      table.columns.each do |k, v|
+        options = v.fetch(:attribute, {})
+        cells << @context.content_tag(:td, render_attribute(k, options), v[:html])
+      end
+
+      cells.join.html_safe
     end
   end
 end

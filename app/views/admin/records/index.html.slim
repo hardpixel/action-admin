@@ -10,13 +10,13 @@
       table.unstriped.margin-0
         thead
           tr
-            = admin_present(current_model).render_attributes_labels(:th)
-            th = 'Actions'
+            = admin_present(current_model).render_table_header(:index)
+            th.shrink.actions.text-right = 'Actions'
 
         tbody
           - admin_present_many(current_records).each do |record|
             tr
-              = record.render_attributes(:td, class: 'expand')
+              = record.render_table_columns(:index)
               = record.action_links(:td, class: 'shrink actions')
 
     - if current_records.respond_to? :current_page
