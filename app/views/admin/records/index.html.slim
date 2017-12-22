@@ -1,24 +1,13 @@
-- if current_records.empty?
-  = render 'admin/common/noresults'
+.panel
+  .panel-header
+    = render 'admin/records/table/header'
 
-- else
-  .panel
-    .panel-header
-      = render 'admin/records/table/header'
+  .panel-content.padding-0.border-none
+    - if current_records.empty?
+      = render 'admin/common/noresults'
+    - else
+      = render 'admin/records/table/body'
 
-    .panel-content.padding-0.border-none
-      table.unstriped.margin-0
-        thead
-          tr
-            = admin_present(current_model).render_table_header(:index)
-            th.shrink.actions.text-right = 'Actions'
-
-        tbody
-          - admin_present_many(current_records).each do |record|
-            tr
-              = record.render_table_columns(:index)
-              = record.action_links(:td, class: 'shrink actions')
-
-    - if current_records.respond_to? :current_page
-      .panel-footer
-        = admin_table_pagination current_records
+  - if current_records.respond_to? :current_page
+    .panel-footer
+      = render 'admin/records/table/footer'

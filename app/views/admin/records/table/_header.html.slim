@@ -13,7 +13,4 @@
       .input-group.margin-0
         = f.text_field :s, class: 'input-group-field small', placeholder: 'Search...', name: :search, value: params[:search]
         .input-group-button
-          - if admin_search?
-            = link_to admin_icon('close'), admin_search_url, class: 'button alert small'
-          - else
-            button.button.default.small type="submit" = admin_icon 'magnify'
+          button.button.default.small type="submit" = admin_icon 'magnify'
