@@ -46,5 +46,20 @@ module ActionAdmin
 
       render partial, options
     end
+
+    def admin_search?
+      params[:search].present?
+    end
+
+    def merge_params(original, keys, candidates)
+      original = Hash(original)
+      selected = candidates.select { |k, _v| Array(keys).include? :"#{k}" }
+
+      original.merge(selected)
+    end
+
+    def admin_search_url
+      url_for merge_params({}, [:per_page, :filter, :sort], params.permit(:per_page, filter: {}, sort: {}).to_h)
+    end
   end
 end
