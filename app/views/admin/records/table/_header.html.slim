@@ -1,0 +1,19 @@
+.grid-x
+  .cell.shrink
+    form action=request.path method="get"
+      .input-group.margin-0
+        input.input-group-field.small type="text" name="per_page" size="2" value=@pagination_params[:per_page]
+        .input-group-button
+          button.button.default.small type="submit" = 'Per Page'
+  .cell.auto.text-right
+    = form_for :search, method: :get, url: admin_search_url, html: { class: 'search-form display-inline-block' } do |f|
+      - if params[:per_page]
+        input type="hidden" name="per_page" value=params[:per_page]
+
+      .input-group.margin-0
+        = f.text_field :s, class: 'input-group-field small', placeholder: 'Search...', name: :search, value: params[:search]
+        .input-group-button
+          - if admin_search?
+            = link_to admin_icon('close'), admin_search_url, class: 'button alert small'
+          - else
+            button.button.default.small type="submit" = admin_icon 'magnify'
