@@ -61,5 +61,13 @@ module ActionAdmin
     def admin_search_url
       url_for merge_params({}, [:per_page, :filter, :sort], params.permit(:per_page, filter: {}, sort: {}).to_h)
     end
+
+    def admin_shortcode_present(shortcode, presenter=nil)
+      class_name = shortcode.classify
+      presenter  = presenter || "Admin::#{class_name}ShortcodePresenter"
+      presenter  = "#{presenter}".safe_constantize || 'ActionAdmin::ShortcodePresenter'.constantize
+
+      presenter.new(shortcode, self)
+    end
   end
 end

@@ -17,7 +17,7 @@ module ActionAdmin
 
     initializer 'action_admin', before: :load_config_initializers do
       Rails.application.routes.append do
-        mount ActionAdmin::Engine, at: 'admin'
+        mount ActionAdmin::Engine, at: 'admin', as: :admin
       end
     end
   end
