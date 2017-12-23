@@ -17,12 +17,20 @@ module ActionAdmin
       content + content_tag(:div, image, data: { list_remove: '' }, class: 'attachments')
     end
 
+    def final_attribute_name
+      if object.is_a? ::ActiveRecord::Base
+        :"#{attribute_name}_id"
+      else
+        :"#{attribute_name}"
+      end
+    end
+
     def empty_input
-      @builder.hidden_field(:"#{attribute_name}_id", value: '', id: nil)
+      @builder.hidden_field(final_attribute_name, value: '', id: nil)
     end
 
     def hidden_input
-      @builder.hidden_field(:"#{attribute_name}_id", data: { value: :id })
+      @builder.hidden_field(final_attribute_name, data: { value: :id })
     end
 
     def input_html_id
@@ -30,15 +38,15 @@ module ActionAdmin
     end
 
     def attachment_url
-      object.send(attribute_name).try(:file_url, :preview)
+      object.try(attribute_name).try(:file_url, :preview)
     end
 
     def attachment(image_url=nil)
-      image  = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { src: 'file.preview.url', url: "#{template.root_url.chomp('/')}[src]" }
-      remove = content_tag :a, 'Remove', class: 'button alert small hollow margin-0', data: { remove: '' }
-      change = content_tag :a, 'Change', class: 'button success small hollow margin-0', data: { open: input_html_id }
-      remove = content_tag :div, remove, class: 'cell auto text-left'
-      change = content_tag :div, change, class: 'cell shrink'
+      image   = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { src: 'file.preview.url', url: "#{template.root_url.chomp('/')}[src]" }
+      remove  = content_tag :a, 'Remove', class: 'button alert small hollow margin-0', data: { remove: '' }
+      change  = content_tag :a, 'Change', class: 'button success small hollow margin-0', data: { open: input_html_id }
+      remove  = content_tag :div, remove, class: 'cell auto text-left'
+      change  = content_tag :div, change, class: 'cell shrink'
       buttons = content_tag :div, remove + change, class: 'panel-section expanded border last grid-x'
 
       content_tag :div, hidden_input + image + buttons, class: 'attachment text-center', data: { list_item: '' }
