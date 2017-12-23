@@ -1,0 +1,24 @@
+ruby:
+  list_url    = admin.shortcode_list_url
+  form_url    = URI.unescape admin.shortcode_form_url(id: '[name]')
+  preview_url = URI.unescape admin.shortcode_preview_url(id: '[name]')
+
+#shortcode-modal.reveal.full.reveal-panel.shortcode-reveal data-shortcode-reveal="" data-multiple-opened="true" data-form-url=form_url data-preview-url=preview_url data-shortcodes-url=list_url
+  .panel
+    .panel-header.border
+      = 'Add Shortcode'
+      button.close-button aria-label="Close modal" data-close="" type="button"
+        span aria-hidden="true" &times;
+
+    .panel-content.border.padding-0
+      .shortcode-columns
+        .shortcode-menu data-menu=""
+        .shortcode-form data-form=""
+        .shortcode-preview data-preview=""
+
+    .panel-footer
+      .grid-x
+        .cell.auto
+          button.button.hollow.alert.margin-0 aria-label="Close modal" data-close="" type="button" = 'Close'
+        .cell.shrink
+          button.button.margin-0 aria-label="Insert Shortcode" data-insert="" type="button" = 'Insert'

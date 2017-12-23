@@ -20,10 +20,12 @@ html
             = render 'admin/common/header'
             = yield
             = render 'admin/common/footer'
-            = render 'admin/common/media_modal'
-            = render 'admin/common/dropzone_template'
 
       #offcanvas.off-canvas.position-right data-off-canvas=""
         = render 'admin/common/messagebar'
+
+    = render 'admin/common/media_modal'
+    = render 'admin/common/shortcode_modal'
+    = render 'admin/common/dropzone_template'
 
     = javascript_include_tag 'admin/application'

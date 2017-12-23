@@ -9,6 +9,7 @@ module ActionAdmin
         media_src: "file.large.url",
         media_alt: "name",
         media_url: "[src]",
+        shortcode_handler: 'shortcode-modal',
         convert_urls: false
       })
 
