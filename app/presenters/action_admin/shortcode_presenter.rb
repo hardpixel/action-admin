@@ -12,17 +12,18 @@ module ActionAdmin
     end
 
     def render_field(form, field, options={})
-      association = options[:association]
+      options = Hash(options)
 
-      if association.present?
-        form.association field, Hash(options).except(:association)
-      else
-        form.input field, Hash(options)
-      end
+      options[:input_html]        ||= {}
+      options[:input_html][:data] ||= {}
+
+      options[:input_html][:data][:attribute] = field
+
+      form.input field, options
     end
 
     def render_fields(form)
-      fields.map { |f, o| render_field(form, f, 0) }.join.html_safe
+      fields.map { |f, o| render_field(form, f, o) }.join.html_safe
     end
   end
 end

@@ -64,7 +64,7 @@ module ActionAdmin
 
     def admin_shortcode_present(shortcode, presenter=nil)
       class_name = shortcode.classify
-      presenter  = presenter || "Admin::#{class_name}ShortcodePresenter"
+      presenter  = presenter || "Admin::Shortcode::#{class_name}Presenter"
       presenter  = "#{presenter}".safe_constantize || 'ActionAdmin::ShortcodePresenter'.constantize
 
       presenter.new(shortcode, self)

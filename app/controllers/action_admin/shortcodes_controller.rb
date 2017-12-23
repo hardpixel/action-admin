@@ -12,9 +12,11 @@ module ActionAdmin
     end
 
     def form
+      @shortcode = params[:id]
     end
 
     def preview
+      @shortcode = params[:id]
     end
   end
 end
