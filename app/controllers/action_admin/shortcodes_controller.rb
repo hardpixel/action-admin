@@ -9,7 +9,7 @@ module ActionAdmin
         shortcodes[key][:icon] = "mdi mdi-#{value[:icon]}" if value[:icon].present?
       end
 
-      render json: shortcodes.to_json
+      render json: shortcodes
     end
 
     def form
@@ -17,12 +17,7 @@ module ActionAdmin
     end
 
     def preview
-      # @shortcode = params[:shortcode]
-      name  = params[:id]
-      attrs = params[name]
-      attrs = attrs.permit!.to_h.reject { |_k, v| v.blank? }.map { |k, v| "#{k}=\"#{Array(v).join(',')}\"" } if attrs.present?
-
-      @shortcode = "[#{name} #{Array(attrs).join(' ')}]" if attrs.present?
+      @shortcode = params[:shortcode]
     end
   end
 end
