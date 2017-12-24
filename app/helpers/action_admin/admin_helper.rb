@@ -69,5 +69,23 @@ module ActionAdmin
 
       presenter.new(shortcode, self)
     end
+
+    def admin_render_shortcode(string)
+      method(ActionAdmin.config.shortcode_helper).call(string)
+    end
+
+    def admin_shortcode_assets
+      assets = ActionAdmin.config.shortcode_assets.map do |asset|
+        name, type = asset.split('.')
+        type == 'css' ? stylesheet_link_tag(name) : javascript_include_tag(name)
+      end
+
+      packs = ActionAdmin.config.shortcode_packs.map do |asset|
+        name, type = asset.split('.')
+        type == 'css' ? stylesheet_pack_tag(name) : javascript_pack_tag(name)
+      end
+
+      assets.join.html_safe + packs.join.html_safe
+    end
   end
 end

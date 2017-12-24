@@ -1,10 +1,14 @@
 module ActionAdmin
   class Config < Hashie::Dash
-    property :app_name,     default: 'Action Admin'
-    property :app_urls,     default: :web_url
-    property :admin_locale, default: :en
-    property :menus,        default: Hashie::Mash.new
-    property :shortcodes,   default: Hashie::Mash.new
+    property :app_name,         default: 'Action Admin'
+    property :app_urls,         default: :web_url
+    property :admin_locale,     default: :en
+    property :menus,            default: Hashie::Mash.new
+    property :shortcodes,       default: Hashie::Mash.new
+    property :shortcode_helper, default: :render_shortcode
+    property :shortcode_layout, default: 'shortcode'
+    property :shortcode_assets, default: ['application.css', 'application.js']
+    property :shortcode_packs,  default: {}
 
     def menu(name, &block)
       if self.menus.send(:"#{name}").nil?

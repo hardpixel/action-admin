@@ -1,6 +1,7 @@
 module ActionAdmin
   class ShortcodesController < ActionController::Base
-    layout nil
+    layout nil, except: :preview
+    layout ActionAdmin.config.shortcode_layout, only: :preview
 
     def list
       shortcodes = ActionAdmin.config.shortcodes
@@ -16,7 +17,12 @@ module ActionAdmin
     end
 
     def preview
-      @shortcode = params[:id]
+      # @shortcode = params[:shortcode]
+      name  = params[:id]
+      attrs = params[name]
+      attrs = attrs.permit!.to_h.reject { |_k, v| v.blank? }.map { |k, v| "#{k}=\"#{Array(v).join(',')}\"" } if attrs.present?
+
+      @shortcode = "[#{name} #{Array(attrs).join(' ')}]" if attrs.present?
     end
   end
 end
