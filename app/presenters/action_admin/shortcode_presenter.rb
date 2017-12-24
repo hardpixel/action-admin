@@ -18,6 +18,7 @@ module ActionAdmin
       options[:input_html][:data] ||= {}
 
       options[:input_html][:data][:attribute] = field
+      options[:input_html][:include_hidden]   = false
 
       form.input field, options
     end

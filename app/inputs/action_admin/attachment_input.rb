@@ -30,7 +30,12 @@ module ActionAdmin
     end
 
     def hidden_input
-      @builder.hidden_field(final_attribute_name, data: { value: :id })
+      input_options = input_html_options
+
+      input_options[:data]        ||= {}
+      input_options[:data][:value]  = :id
+
+      @builder.hidden_field(final_attribute_name, input_options)
     end
 
     def input_html_id
