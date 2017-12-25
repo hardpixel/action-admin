@@ -13,14 +13,17 @@ ruby:
     .panel-content.border.padding-0
       .shortcode-columns
         .shortcode-menu data-menu=""
-        .shortcode-form
-          h4.shortcode-title = 'Customize'
-          div.shortcode-content data-form=""
 
         .shortcode-preview
           .shortcode-inner
-            h4.shortcode-title = 'Preview'
             div.shortcode-content data-preview=""
+              .no-content data-empty=""
+                = admin_icon 'eye-off'
+                span = 'No preview available'
+
+        .shortcode-form
+          h4.shortcode-title = 'Customize'
+          div.shortcode-content data-form=""
 
     .panel-footer
       .grid-x
