@@ -10,8 +10,8 @@ module ActionAdmin
     def input_placeholder
       span    = content_tag :span, 'No thumbnail', class: 'margin-bottom-1'
       icon    = content_tag :i, nil, class: 'mdi mdi-camera-off'
-      button  = content_tag :a, 'Add Thumbnail', data: { open: input_html_id }, class: 'button success small hollow margin-0'
-      content = content_tag :div, empty_input + icon + span + button, class: 'no-content hide', data: { empty_state: '' }
+      button  = content_tag :a, 'Add Thumbnail', data: { open: input_html_id }, class: 'button success small hollow'
+      content = content_tag :div, empty_input + icon + span + button, class: 'no-content panel-section expanded border first last hide', data: { empty_state: '' }
       image   = attachment(attachment_url) if attachment_url.present?
 
       content + content_tag(:div, image, data: { list_remove: '' }, class: 'attachments')
