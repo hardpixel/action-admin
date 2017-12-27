@@ -130,5 +130,9 @@ module ActionAdmin
 
       app_link.nil? ? all_links : (app_link + all_links)
     end
+
+    def admin_sidebar_status
+      'is-collapsed' unless cookies[:"_sidebar-collapsed"].nil?
+    end
   end
 end
