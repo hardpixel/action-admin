@@ -8,7 +8,7 @@ module ActionAdmin
     property :shortcode_helper, default: :render_shortcode
     property :shortcode_layout, default: 'shortcode'
     property :shortcode_assets, default: ['application.css', 'application.js']
-    property :shortcode_packs,  default: {}
+    property :shortcode_packs,  default: []
 
     def menu(name, &block)
       if self.menus.send(:"#{name}").nil?

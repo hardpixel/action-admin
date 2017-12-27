@@ -76,13 +76,13 @@ module ActionAdmin
 
     def admin_shortcode_assets
       assets = ActionAdmin.config.shortcode_assets.map do |asset|
-        name, type = asset.split('.')
-        type == 'css' ? stylesheet_link_tag(name) : javascript_include_tag(name)
+        type = asset.split('.').last
+        type == 'css' ? stylesheet_link_tag(asset) : javascript_include_tag(asset)
       end
 
       packs = ActionAdmin.config.shortcode_packs.map do |asset|
-        name, type = asset.split('.')
-        type == 'css' ? stylesheet_pack_tag(name) : javascript_pack_tag(name)
+        type = asset.split('.').last
+        type == 'css' ? stylesheet_pack_tag(asset) : javascript_pack_tag(asset)
       end
 
       assets.join.html_safe + packs.join.html_safe

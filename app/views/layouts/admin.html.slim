@@ -8,7 +8,7 @@ html
     = stylesheet_link_tag 'admin/application', media: 'all'
 
   body
-    .off-canvas-wrapper
+    .off-canvas-wrapper data-resize-watcher=""
       .off-canvas-menu-wrapper.off-canvas-content data-off-canvas-content=""
         #sidebar.off-canvas-menu.position-left data-off-canvas-menu=""
           = render 'admin/common/sidebar'
