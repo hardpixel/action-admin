@@ -5,6 +5,7 @@ module ActionAdmin
     action_title :new, 'Register'
     action_title :edit, 'Edit Profile'
 
-    layout -> { action_name == 'edit' ? 'admin' : 'admin/devise' }
+    layout 'admin', only: :edit
+    layout 'admin/devise', except: :edit
   end
 end
