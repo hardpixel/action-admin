@@ -29,7 +29,7 @@ module ActionAdmin
 
     def admin_settings_menu(records, label_method=:id)
       options = {
-        menu_class:    'menu horizontal',
+        menu_class:    'vertical menu icons icon-left',
         active_class:  'active',
         keep_defaults: false
       }
@@ -38,7 +38,7 @@ module ActionAdmin
         label = record.send(label_method)
         url   = edit_record_url(record)
 
-        [:"#{label.downcase.underscore}", { label: label, url: url, html: { class: 'padding-1' } }]
+        [:"#{label.downcase.underscore}", { label: label, url: url }]
       end
 
       smart_navigation_for Hash[items], options
