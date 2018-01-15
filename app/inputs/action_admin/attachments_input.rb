@@ -30,13 +30,13 @@ module ActionAdmin
       @builder.hidden_field(final_attribute_name, value: '', id: nil, multiple: true)
     end
 
-    def hidden_input
+    def hidden_input(image_id=nil)
       input_options = input_html_options
 
       input_options[:data]        ||= {}
       input_options[:data][:value]  = :id
 
-      @builder.hidden_field(final_attribute_name, input_options.merge(multiple: true))
+      @builder.hidden_field(final_attribute_name, input_options.merge(multiple: true, value: image_id))
     end
 
     def input_html_id
@@ -44,20 +44,33 @@ module ActionAdmin
     end
 
     def attachment_urls
-      Array(object.try(attribute_name)).map { |a| a.try(:file_url, :small) }
+      media = nil
+
+      if object.is_a? ::ActiveRecord::Base
+        media = object.try(attribute_name)
+      elsif options[:model_name]
+        media_model = "#{options[:model_name]}".safe_constantize
+
+        if media_model.present?
+          attval = object.send(attribute_name) rescue nil
+          media = media_model.where(id: attval)
+        end
+      end
+
+      Array(media).map { |a| [a.try(:id), a.try(:file_url, :small), a.try(:name)] }
     end
 
     def attachments(urls=[])
-      urls.map { |u| attachment(u) }.join.html_safe
+      urls.map { |u| attachment(*u) }.join.html_safe
     end
 
-    def attachment(image_url=nil)
+    def attachment(image_id=nil, image_url=nil, image_name=nil)
       image    = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { src: 'file.small.url', url: "#{template.root_url.chomp('/')}[src]" }
-      filename = content_tag :span, nil, class: 'filename', data: { text: 'name' }
+      filename = content_tag :span, image_name, class: 'filename', data: { text: 'name' }
       remove   = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
       thumb    = content_tag :div, image + filename + remove, class: 'thumbnail'
 
-      content_tag :div, hidden_input + thumb, class: 'attachment', data: { list_item: '' }
+      content_tag :div, hidden_input(image_id) + thumb, class: 'attachment', data: { list_item: '' }
     end
 
     def input_template

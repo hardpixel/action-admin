@@ -43,7 +43,20 @@ module ActionAdmin
     end
 
     def attachment_url
-      object.try(attribute_name).try(:file_url, :preview)
+      medium = nil
+
+      if object.is_a? ::ActiveRecord::Base
+        medium = object.try(attribute_name)
+      elsif options[:model_name]
+        media_model = "#{options[:model_name]}".safe_constantize
+
+        if media_model.present?
+          attval = object.send(attribute_name) rescue nil
+          medium = media_model.find_by_id(attval)
+        end
+      end
+
+      medium.try(:file_url, :preview)
     end
 
     def attachment(image_url=nil)
