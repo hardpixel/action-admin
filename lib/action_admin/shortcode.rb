@@ -45,6 +45,7 @@ module ActionAdmin
       def parse_shortcode_attr(string, attribs)
         found = Hash["#{string}".scan(/(\w+)="([^"]+)"/)].symbolize_keys
         valid = found.select { |k, _v| k.in? attribs.keys }
+        valid = Hash[valid.map { |k, v| k == :ids ? [k, v.split(',').map(&:strip)] : [k, v] }]
 
         valid_shortcode?(string) ? attribs.merge(valid) : attribs
       end
