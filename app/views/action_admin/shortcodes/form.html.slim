@@ -1,2 +1,2 @@
-= admin_form_for(:"#{@shortcode}", url: root_url, method: :get) do |f|
-  = admin_shortcode_present(@shortcode).render_fields(f)
+= admin_form_for(@shortcode, url: root_url, method: :get) do |f|
+  = @presenter.render_fields(f)

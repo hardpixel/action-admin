@@ -13,7 +13,8 @@ module ActionAdmin
     end
 
     def form
-      @shortcode = params[:id]
+      @presenter = helpers.admin_shortcode_present(params[:id])
+      @shortcode = ActionAdmin::Shortcode.new(params, @presenter.fields)
     end
 
     def preview

@@ -16,6 +16,7 @@ module ActionAdmin
   autoload :Form
   autoload :Header
   autoload :Table
+  autoload :Shortcode
 
   # Set attr accessors
   mattr_accessor :config
