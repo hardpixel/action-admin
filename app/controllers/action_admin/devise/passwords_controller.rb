@@ -1,8 +1,8 @@
 class ActionAdmin::Devise::PasswordsController < ::Devise::PasswordsController
-    include ActionAdmin::Actionable
+  include ActionAdmin::Actionable
 
-    action_title :new,  'Forgot Password'
-    action_title :edit, 'Reset Password'
+  action_title :new,  'Forgot Password'
+  action_title :edit, 'Reset Password'
 
-    layout 'admin/devise'
+  layout 'admin/devise'
 end

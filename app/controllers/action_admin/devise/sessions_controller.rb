@@ -1,7 +1,7 @@
 class ActionAdmin::Devise::SessionsController < ::Devise::SessionsController
-    include ActionAdmin::Actionable
+  include ActionAdmin::Actionable
 
-    action_title :new, 'Login'
+  action_title :new, 'Login'
 
-    layout 'admin/devise'
+  layout 'admin/devise'
 end

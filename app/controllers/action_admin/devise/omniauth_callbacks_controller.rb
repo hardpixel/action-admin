@@ -1,5 +1,5 @@
 class ActionAdmin::Devise::OmniauthCallbacksController < ::Devise::OmniauthCallbacksController
-    include ActionAdmin::Actionable
+  include ActionAdmin::Actionable
 
-    layout 'admin/devise'
+  layout 'admin/devise'
 end
