@@ -3,6 +3,7 @@ module ActionAdmin
     def input(wrapper_options)
       out  = ActiveSupport::SafeBuffer.new
       data = { file_input: '', previews_container: "##{input_html_id}-preview" }
+      data = data.merge(thumbnail_width: 400, thumbnail_height: 400) if multiple?
       html = content_tag :div, input_placeholder, id: input_html_id, class: 'dropzone', data: data
 
       out << html
@@ -10,14 +11,27 @@ module ActionAdmin
     end
 
     def input_placeholder
+      multiple? ? input_placeholder_multiple + attachment_controls : input_placeholder_single
+    end
+
+    def input_placeholder_single
       span    = content_tag :span, 'Drop file here', class: 'margin-bottom-1'
       icon    = content_tag :i, nil, class: 'mdi mdi-upload'
       button  = content_tag :label, 'Upload File', for: attr_html_id, class: 'button success small hollow margin-0'
       content = content_tag :div, icon + span + file_input + button, class: 'no-content'
-      image   = attachment(attachment_url) if attachment_url.present?
 
       content_tag(:div, content, class: 'dz-message bordered hide') +
-      content_tag(:div, image, id: "#{input_html_id}-preview")
+      content_tag(:div, existing_attachments, id: "#{input_html_id}-preview")
+    end
+
+    def input_placeholder_multiple
+      span    = content_tag :span, 'Drop files here to upload', class: 'margin-bottom-1'
+      icon    = content_tag :i, nil, class: 'mdi mdi-upload'
+      button  = content_tag :label, 'Select Files', for: attr_html_id, class: 'button success hollow margin-top-1'
+      content = content_tag :div, icon + span + file_input + button, class: 'no-content'
+
+      content_tag(:div, content, class: 'dz-message bordered hide') +
+      content_tag(:div, existing_attachments, id: "#{input_html_id}-preview", class: 'attachments-grid removable', data: { list_remove: '' } )
     end
 
     def file_input
@@ -40,27 +54,73 @@ module ActionAdmin
       attr_html_id.dasherize
     end
 
-    def attachment_url
-      object.send(attribute_name).try(:url)
+    def existing_attachments
+      attribute = object.send(attribute_name)
+
+      if multiple?
+        image_size = input_options.fetch :thumbnail_size, :small
+        content = Array(attribute).map do |file|
+          image_url = file.try(:url, image_size)
+          image_name = file.file.file.split('/').last
+          attachment(image_url, image_name) if image_url.present?
+        end
+
+        content.reject(&:blank?).join.html_safe
+      else
+        image_size = input_options.fetch :thumbnail_size, :medium
+        image_url = attribute.try(:url)
+        attachment(image_url) if image_url.present?
+      end
     end
 
-    def attachment(image_url=nil)
-      image   = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { dz_thumbnail: '' }
-      remove  = content_tag :a, 'Remove', class: 'button alert small hollow margin-0', data: { dz_remove: '' }
-      change  = content_tag :a, 'Change', class: 'button success small hollow margin-0', data: { dz_change: '' }
-      remove  = content_tag :div, remove, class: 'cell auto text-left'
-      change  = content_tag :div, change, class: 'cell shrink'
-      buttons = content_tag :div, remove + change, class: 'panel-section expanded border last grid-x'
+    def attachment(image_url=nil, image_name=nil)
+      multiple? ? attachment_multiple(image_url, image_name) : attachment_single(image_url)
+    end
 
-      content_tag :div, hidden_input + image + buttons, class: 'text-center'
+    def attachment_single(image_url=nil)
+      image = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { dz_thumbnail: '' }
+      content_tag :div, hidden_input + image + attachment_controls, class: 'text-center'
+    end
+
+    def attachment_multiple(image_url=nil, image_name=nil)
+      image    = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { dz_thumbnail: '' }
+      filename = content_tag :span, image_name, class: 'filename', data: { dz_name: '' }
+      remove   = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
+      thumb    = content_tag :div, image + filename + remove, class: 'thumbnail'
+
+      content_tag :div, thumb, class: 'attachment', data: { list_item: '' }
     end
 
     def input_template
       content_tag :script, attachment, id: "#{input_html_id}-preview-template", type: 'text/template'
     end
 
+    def attachment_controls
+      if multiple?
+        rmtext = 'Clear'
+        chtext = 'Add Files'
+      else
+        rmtext = 'Remove'
+        chtext = 'Change'
+      end
+
+      btsize = 'small' unless multiple?
+      remove = content_tag :a, rmtext, class: "button alert #{btsize} hollow margin-0", data: { dz_remove: '' }
+      change = content_tag :a, chtext, class: "button success #{btsize} hollow margin-0", data: { dz_change: '' }
+      remove = content_tag :div, remove, class: 'cell auto text-left'
+      change = content_tag :div, change, class: 'cell shrink'
+
+      content_tag :div, remove + change, class: 'panel-section expanded border last grid-x', data: { dz_controls: '' }
+    end
+
     def label(wrapper_options)
       ''
     end
+
+    private
+
+      def multiple?
+        input_html_options[:multiple] == true
+      end
   end
 end
