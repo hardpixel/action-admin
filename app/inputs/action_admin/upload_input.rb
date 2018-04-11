@@ -62,7 +62,7 @@ module ActionAdmin
         content = Array(attribute).map do |file|
           image_url = file.try(:url, image_size)
           image_name = file.file.file.split('/').last
-          attachment(image_url, image_name) if image_url.present?
+          attachment(image_url, image_name, true) if image_url.present?
         end
 
         content.reject(&:blank?).join.html_safe
@@ -73,8 +73,8 @@ module ActionAdmin
       end
     end
 
-    def attachment(image_url=nil, image_name=nil)
-      multiple? ? attachment_multiple(image_url, image_name) : attachment_single(image_url)
+    def attachment(*args)
+      multiple? ? attachment_multiple(*args) : attachment_single(*args)
     end
 
     def attachment_single(image_url=nil)
@@ -82,13 +82,24 @@ module ActionAdmin
       content_tag :div, hidden_input + image + attachment_controls, class: 'text-center'
     end
 
-    def attachment_multiple(image_url=nil, image_name=nil)
+    def attachment_multiple(image_url=nil, image_name=nil, removable=false)
       image    = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { dz_thumbnail: '' }
       filename = content_tag :span, image_name, class: 'filename', data: { dz_name: '' }
-      remove   = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
-      thumb    = content_tag :div, image + filename + remove, class: 'thumbnail'
+      content  = image + filename
 
-      content_tag :div, thumb, class: 'attachment', data: { list_item: '' }
+      if removable.present?
+        remove  = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
+        content = content + remove
+        classes = nil
+      else
+        size    = content_tag :span, nil, class: 'size left', data: { dz_size: '' }
+        added   = content_tag :span, nil, class: 'new-button mdi mdi-plus'
+        content = content + size + added
+        classes = 'is-new'
+      end
+
+      thumb = content_tag :div, content, class: 'thumbnail'
+      content_tag :div, thumb, class: "attachment #{classes}", data: { list_item: '' }
     end
 
     def input_template
