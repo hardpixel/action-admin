@@ -9,6 +9,7 @@ module ActionAdmin
     property :shortcode_layout, default: 'shortcode'
     property :shortcode_assets, default: ['application.css', 'application.js']
     property :shortcode_packs,  default: []
+    property :google_maps_key,  default: nil
 
     def menu(name, &block)
       if self.menus.send(:"#{name}").nil?
