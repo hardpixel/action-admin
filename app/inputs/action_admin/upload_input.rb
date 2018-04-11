@@ -4,7 +4,7 @@ module ActionAdmin
       out  = ActiveSupport::SafeBuffer.new
       data = { file_input: '', previews_container: "##{input_html_id}-preview" }
       data = data.merge(thumbnail_width: 400, thumbnail_height: 400) if multiple?
-      html = content_tag :div, input_placeholder, id: input_html_id, class: 'dropzone', data: data
+      html = content_tag :div, input_placeholder + remove_input, id: input_html_id, class: 'dropzone', data: data
 
       out << html
       out << input_template
@@ -38,9 +38,17 @@ module ActionAdmin
       @builder.file_field(attribute_name, input_html_options)
     end
 
-    def hidden_input
+    def cache_input
       if object.respond_to?("#{attribute_name}_cache")
         @builder.hidden_field("#{attribute_name}_cache")
+      else
+        ''.html_safe
+      end
+    end
+
+    def remove_input
+      if object.respond_to?("remove_#{attribute_name}")
+        @builder.check_box("remove_#{attribute_name}", class: 'hide', data: { dz_remove_input: '' })
       else
         ''.html_safe
       end
@@ -79,7 +87,7 @@ module ActionAdmin
 
     def attachment_single(image_url=nil)
       image = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { dz_thumbnail: '' }
-      content_tag :div, hidden_input + image + attachment_controls, class: 'text-center'
+      content_tag :div, cache_input + image + attachment_controls, class: 'text-center'
     end
 
     def attachment_multiple(image_url=nil, image_name=nil, removable=false)
