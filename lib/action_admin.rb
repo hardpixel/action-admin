@@ -29,3 +29,7 @@ module ActionAdmin
     yield config
   end
 end
+
+ActiveSupport.on_load(:active_record) do
+  include ActionAdmin::Form::Uploadable
+end

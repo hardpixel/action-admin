@@ -5,5 +5,6 @@ module ActionAdmin
     autoload :Builder
     autoload :MinimalBuilder
     autoload :ErrorNotification
+    autoload :Uploadable
   end
 end

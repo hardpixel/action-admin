@@ -30,6 +30,7 @@ module ActionAdmin
       button  = content_tag :label, 'Select Files', for: attr_html_id, class: 'button success hollow margin-top-1'
       content = content_tag :div, icon + span + file_input + button, class: 'no-content'
 
+      current_input('') +
       content_tag(:div, content, class: 'dz-message bordered hide') +
       content_tag(:div, existing_attachments, id: "#{input_html_id}-preview", class: 'attachments-grid removable', data: { list_remove: '' } )
     end
@@ -54,6 +55,14 @@ module ActionAdmin
       end
     end
 
+    def current_input(image_url)
+      if object.respond_to?("current_#{attribute_name}")
+        @builder.hidden_field("current_#{attribute_name}", multiple: true, value: image_url)
+      else
+        ''.html_safe
+      end
+    end
+
     def attr_html_id
       file_input[/id=\"(.*)\"/, 1]
     end
@@ -69,8 +78,9 @@ module ActionAdmin
         image_size = input_options.fetch :thumbnail_size, :small
         content = Array(attribute).map do |file|
           image_url = file.try(:url, image_size)
+          image_path = file.try(:path)
           image_name = file.file.file.split('/').last
-          attachment(image_url, image_name, true) if image_url.present?
+          attachment(image_url, image_name, image_path, true) if image_url.present?
         end
 
         content.reject(&:blank?).join.html_safe
@@ -90,14 +100,14 @@ module ActionAdmin
       content_tag :div, cache_input + image + attachment_controls, class: 'text-center'
     end
 
-    def attachment_multiple(image_url=nil, image_name=nil, removable=false)
+    def attachment_multiple(image_url=nil, image_name=nil, image_path=nil, removable=false)
       image    = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { dz_thumbnail: '' }
       filename = content_tag :span, image_name, class: 'filename', data: { dz_name: '' }
       content  = image + filename
 
       if removable.present?
         remove  = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
-        content = content + remove
+        content = content + remove + current_input(image_path)
         classes = nil
       else
         size    = content_tag :span, nil, class: 'size left', data: { dz_size: '' }
