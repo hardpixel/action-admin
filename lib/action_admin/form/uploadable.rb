@@ -7,18 +7,21 @@ module ActionAdmin
         def multiupload_field(name)
           attr_name = :"#{name}"
           attr_curr = :"current_#{name}"
-          attr_prev = :"#{name}_was"
+          attr_prev = :"previous_#{name}"
 
-          define_method attr_curr do
-            instance_variable_get("@#{attr_curr}") || []
-          end
+          [attr_curr, attr_prev].each do |attr_method|
+            define_method attr_method do
+              instance_variable_get("@#{attr_method}") || []
+            end
 
-          define_method :"#{attr_curr}=" do |new_value|
-            instance_variable_set("@#{attr_curr}", new_value || [])
+            define_method :"#{attr_method}=" do |new_value|
+              instance_variable_set("@#{attr_method}", new_value || [])
+            end
           end
 
           after_initialize do |record|
             current = record.send(attr_name)
+            record.send :"#{attr_prev}=", current
 
             if current
               current = current.map { |i| i.file.file }
@@ -28,7 +31,7 @@ module ActionAdmin
 
           before_validation do |record|
             curr_files = Array(record.send(attr_curr)).reject(&:blank?)
-            keep_files = record.send(attr_prev).select do |item|
+            keep_files = Array(record.send(attr_prev)).select do |item|
               item.file.file.in? curr_files
             end
 
