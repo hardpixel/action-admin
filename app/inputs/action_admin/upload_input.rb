@@ -121,7 +121,7 @@ module ActionAdmin
     end
 
     def input_template
-      content_tag :script, attachment, id: "#{input_html_id}-preview-template", type: 'text/template'
+      content_tag :template, attachment, id: "#{input_html_id}-preview-template"
     end
 
     def attachment_controls
