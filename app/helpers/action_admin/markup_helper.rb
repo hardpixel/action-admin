@@ -27,21 +27,32 @@ module ActionAdmin
       content_tag :div, info + links, class: 'grid-x'
     end
 
-    def admin_settings_menu(records, label_method=:id)
-      options = {
+    def admin_settings_menu(options={})
+      items        = {}
+      menu         = options[:menu]
+      records      = options[:collection]
+      label_method = options.fetch(:label_method, :id)
+      manu_options = {
         menu_class:    'vertical menu icons icon-left',
         active_class:  'active',
         keep_defaults: false
       }
 
-      items = records.map do |record|
-        label = record.send(label_method)
-        url   = edit_record_url(record)
+      if records.present?
+        items = records.map do |record|
+          label = record.send(label_method)
+          url   = edit_record_url(record)
 
-        [:"#{label.downcase.underscore}", { label: label, url: url }]
+          [:"#{label.downcase.underscore}", { label: label, url: url }]
+        end
       end
 
-      smart_navigation_for Hash[items], options
+      if menu.present?
+        items = ActionAdmin.config.menus.send(:"#{menu}")
+        manu_options.merge!(menu_icons: true, icon_position: 'left', icon_prefix: 'mdi mdi-')
+      end
+
+      smart_navigation_for Hash[items], manu_options
     end
 
     def admin_primary_menu
