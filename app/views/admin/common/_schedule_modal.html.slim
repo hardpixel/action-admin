@@ -1,0 +1,61 @@
+#schedule-modal.reveal.reveal-panel.rrule-reveal data-multiple-opened="true" data-rrule-reveal=""
+  .panel
+    .panel-header.border
+      = 'Add Schedule Rule'
+      button.close-button aria-label="Close modal" data-close="" type="button"
+        span aria-hidden="true" &times;
+
+    .panel-content.border.padding-bottom-0 data-rrule-generator=""
+      .grid-x.grid-margin-x
+        .cell.small-6
+          label
+            = 'Repeat'
+            select data-rrule="freq"
+              option value="daily" = 'Daily'
+              option value="weekly" = 'Weekly'
+              option value="monthly" = 'Monthly'
+              option value="yearly" = 'Yearly'
+
+          label
+            = 'Interval'
+            input data-rrule="interval" placeholder="Repeat every" step="1" type="number" value="1"
+
+          label
+            = 'Count'
+            input data-rrule="count" placeholder="Repeat times" step="1" type="number" value=""
+
+          label
+            = 'Until'
+            input.datepicker data-date-picker="" data-rrule="until" placeholder="Repeat until" type="text"
+
+          label
+            = 'By Weekday'
+            div data-rrule-element="byweekday"
+
+          label
+            = 'By Month'
+            div data-rrule-element="bymonth"
+
+        .cell.small-6 data-rrule-controls="daily weekly monthly yearly"
+          label
+            = 'By Monthday'
+            div data-rrule-element="bymonthday"
+
+          label
+            = 'By Hour'
+            div data-rrule-element="byhour"
+
+          label
+            = 'By Minute'
+            div data-rrule-element="byminute"
+
+      .callout.info
+        strong = 'Summary:'
+        span data-rrule-text=""
+
+    .panel-footer
+      .grid-x
+        .cell.auto
+          button.button.hollow.alert.margin-0 aria-label="Close modal" data-close="" type="button" = 'Close'
+        .cell.shrink
+          button.button.margin-0 aria-label="Add Rule" data-insert="" type="button" = 'Add Rule'
