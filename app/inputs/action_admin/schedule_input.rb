@@ -7,11 +7,7 @@ module ActionAdmin
 
     def hidden_input
       input_options = input_html_options
-
-      input_options[:data]        ||= {}
-      input_options[:data][:value]  = :id
-
-      @builder.hidden_field(reflection_or_attribute_name, input_options)
+      @builder.hidden_field(reflection_or_attribute_name, input_options.merge(value: '', multiple: true))
     end
 
     def input_html_id
@@ -46,7 +42,7 @@ module ActionAdmin
       counter   = content_tag :span, nil, class: 'counter'
       remove    = content_tag :span, nil, class: 'remove mdi mdi-close', data: { remove: '' }
       item_html = content_tag :span, value, class: 'form-element', data: { rrule_text: '' }
-      item_inp  = @builder.hidden_field(reflection_or_attribute_name, value: value, multiple: true, id: nil)
+      item_inp  = @builder.hidden_field(reflection_or_attribute_name, value: value, multiple: true, id: nil, data: { rrule_input: '' })
       content   = content_tag :div, item_html + item_inp, class: 'content grid-x'
       dataset   = { list_item: '', rrule_string: value }
 
