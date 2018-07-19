@@ -41,7 +41,7 @@ module ActionAdmin
     def list_item(value=nil)
       counter   = content_tag :span, nil, class: 'counter'
       remove    = content_tag :span, nil, class: 'remove mdi mdi-close', data: { remove: '' }
-      item_html = content_tag :span, value, class: 'form-element', data: { rrule_text: '' }
+      item_html = content_tag :span, value, class: 'form-element', data: { rrule_string: '' }
       item_inp  = @builder.hidden_field(reflection_or_attribute_name, value: value, multiple: true, id: nil, data: { rrule_input: '' })
       content   = content_tag :div, item_html + item_inp, class: 'content grid-x'
       dataset   = { list_item: '', rrule_string: value }
