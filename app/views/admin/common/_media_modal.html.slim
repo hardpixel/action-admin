@@ -51,7 +51,7 @@ ruby:
         .cell.shrink
           button.button.margin-0 aria-label='Insert Media' data-insert="" type="button" = 'Insert Media'
 
-script#media-modal-item-template type="text/template"
+template#media-modal-item-template
   .attachment data-list-item=""
     .thumbnail
       img data-src="file.small.url" data-url="#{root_url.chomp('/')}[src]" src=asset_url('admin/upload-preview.svg')
