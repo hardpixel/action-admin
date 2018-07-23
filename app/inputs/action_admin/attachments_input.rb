@@ -65,7 +65,7 @@ module ActionAdmin
     end
 
     def attachment(image_id=nil, image_url=nil, image_name=nil)
-      image    = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { src: 'file.small.url', url: "#{template.root_url.chomp('/')}[src]" }
+      image    = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { src: 'file.small.url', src_fallback: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
       filename = content_tag :span, image_name, class: 'filename', data: { text: 'name' }
       remove   = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
       thumb    = content_tag :div, image + filename + remove, class: 'thumbnail'
