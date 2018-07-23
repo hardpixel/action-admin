@@ -25,7 +25,9 @@ html
       #offcanvas.off-canvas.position-right data-off-canvas=""
         = render 'admin/common/messagebar'
 
-    = render 'admin/common/media_modal'
+    - if admin_media_modal?
+      = render 'admin/common/media_modal'
+
     = render 'admin/common/schedule_modal'
     = render 'admin/common/shortcode_modal'
     = render 'admin/common/dropzone_template'
