@@ -10,4 +10,4 @@
           - if current_record.respond_to? parameter
             tr
               td = "#{parameter.to_s.titleize}"
-              td = attribute_for current_record, parameter
+              td = attribute_for current_record, parameter, namespace: 'Admin'

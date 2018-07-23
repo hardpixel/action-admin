@@ -28,7 +28,7 @@ module ActionAdmin
     end
 
     def render_attribute(name, options={})
-      @context.simple_attribute_for(@record, name, options)
+      @context.simple_attribute_for(@record, name, options.merge(namespace: 'Admin'))
     end
 
     def render_attributes(*args)
