@@ -84,6 +84,7 @@ table {
 
   .thumbnail {
     margin: 0;
+    max-width: 2.5rem;
   }
 
   .label {
@@ -91,6 +92,14 @@ table {
 
     a {
       color: inherit;
+    }
+  }
+
+  .block-label {
+
+    .label {
+      width: 100%;
+      margin: 0;
     }
   }
 }
