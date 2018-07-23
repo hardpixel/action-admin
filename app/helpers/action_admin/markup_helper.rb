@@ -142,6 +142,14 @@ module ActionAdmin
       app_link.nil? ? all_links : (app_link + all_links)
     end
 
+    def admin_body_class
+      Array(@body_class).join(' ')
+    end
+
+    def admin_main_class
+      Array(@main_class).join(' ')
+    end
+
     def admin_sidebar_status
       'is-collapsed' unless cookies[:"_sidebar-collapsed"].nil?
     end
