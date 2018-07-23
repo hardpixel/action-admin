@@ -2,7 +2,7 @@
   .panel-header
     = render 'admin/records/table/header'
 
-  .panel-content.padding-0.border-none
+  .panel-content.padding-0.border-none.table-scroll
     - if current_records.empty?
       = render 'admin/common/noresults'
     - else
