@@ -59,15 +59,45 @@ module ActionAdmin
       medium.try(:file_url, :preview)
     end
 
-    def attachment(image_url=nil)
-      image   = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { src: 'file.preview.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
+    def attachment(file_url=nil)
       remove  = content_tag :a, 'Remove', class: 'button alert small hollow margin-0', data: { remove: '' }
       change  = content_tag :a, 'Change', class: 'button success small hollow margin-0', data: { open: input_html_id }
       remove  = content_tag :div, remove, class: 'cell auto text-left'
       change  = content_tag :div, change, class: 'cell shrink'
       buttons = content_tag :div, remove + change, class: 'panel-section expanded border last grid-x'
 
-      content_tag :div, hidden_input + image + buttons, class: 'attachment text-center', data: { list_item: '' }
+      content_tag :div, hidden_input + attachment_preview(file_url) + buttons, class: 'attachment text-center', data: { list_item: '' }
+    end
+
+    def attachment_preview(file_url=nil)
+      dataset = { src: 'file.preview.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
+      image   = content_tag :img, nil, src: file_url, class: 'width-100', data: { mime_match: 'image/*', replace: 'src' }
+      video   = content_tag :video, nil, src: file_url, class: 'width-100', controls: true, data: { mime_match: 'video/*', replace: 'src' }
+      file    = file_preview(file_url)
+      preview = image + video + file
+
+      if file_url.present?
+        media_type = MiniMime.lookup_by_filename(file_url.split('/').last.to_s)
+        media_type = media_type.content_type.split('/').first unless media_type.nil?
+
+        case media_type
+        when 'image'
+          preview = image
+        when 'video'
+          preview = video
+        else
+          preview = file
+        end
+      end
+
+      content_tag :div, preview, class: 'margin-bottom-1', data: dataset
+    end
+
+    def file_preview(file_url=nil)
+      span = content_tag :span, "#{file_url}".split('/').last, class: 'margin-bottom-1', data: { text: 'name' }
+      icon = content_tag :i, nil, class: 'mdi mdi-file-document-box'
+
+      content_tag :div, icon + span, class: 'no-content preview-file', data: { mime_match: '*/*' }
     end
 
     def input_template

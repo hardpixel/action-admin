@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'smart_navigation', '~> 0.1'
   s.add_dependency 'smart_pagination', '~> 0.2'
   s.add_dependency 'meta-tags', '~> 2.6'
+  s.add_dependency 'mini_mime', '~> 1.0'
 
   s.add_development_dependency 'sqlite3'
 end
