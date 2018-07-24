@@ -28,8 +28,10 @@ html
     - if admin_media_modal?
       = render 'admin/common/media_modal'
 
+    - if admin_shortcode_modal?
+      = render 'admin/common/shortcode_modal'
+
     = render 'admin/common/schedule_modal'
-    = render 'admin/common/shortcode_modal'
     = render 'admin/common/dropzone_template'
 
     = google_maps_javascript_tag

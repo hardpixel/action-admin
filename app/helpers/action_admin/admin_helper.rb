@@ -56,6 +56,10 @@ module ActionAdmin
       self.respond_to?(:admin_media_url)
     end
 
+    def admin_shortcode_modal?
+      ActionAdmin.config.shortcodes.present?
+    end
+
     def merge_params(original, keys, candidates)
       original = Hash(original)
       selected = candidates.select { |k, _v| Array(keys).include? :"#{k}" }
