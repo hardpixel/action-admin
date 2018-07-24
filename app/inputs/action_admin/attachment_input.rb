@@ -12,9 +12,9 @@ module ActionAdmin
       icon    = content_tag :i, nil, class: 'mdi mdi-camera-off'
       button  = content_tag :a, 'Add Thumbnail', data: { open: input_html_id }, class: 'button success small hollow'
       content = content_tag :div, empty_input + icon + span + button, class: 'no-content panel-section expanded border first last hide', data: { empty_state: '' }
-      image   = attachment(attachment_url) if attachment_url.present?
+      preview = attachment(attachment_url) if attachment_url.present?
 
-      content + content_tag(:div, image, data: { list_remove: '' }, class: 'attachments')
+      content + content_tag(:div, preview, data: { list_remove: '' }, class: 'attachments')
     end
 
     def final_attribute_name
