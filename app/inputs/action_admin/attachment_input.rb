@@ -60,7 +60,7 @@ module ActionAdmin
     end
 
     def attachment(image_url=nil)
-      image   = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { src: 'file.preview.url', src_fallback: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
+      image   = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { src: 'file.preview.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
       remove  = content_tag :a, 'Remove', class: 'button alert small hollow margin-0', data: { remove: '' }
       change  = content_tag :a, 'Change', class: 'button success small hollow margin-0', data: { open: input_html_id }
       remove  = content_tag :div, remove, class: 'cell auto text-left'
