@@ -42,7 +42,7 @@ module ActionAdmin
       hidden_input[/id=\"(.*)\"/, 1].dasherize
     end
 
-    def attachment_url
+    def attachment_record
       medium = nil
 
       if object.is_a? ::ActiveRecord::Base
@@ -56,7 +56,17 @@ module ActionAdmin
         end
       end
 
-      medium.try(:file_url, :preview)
+      medium
+    end
+
+    def attachment_url
+      attachment_record.try(:file_url, :preview) ||
+      attachment_record.try(:file_url)
+    end
+
+    def attachment_name
+      attachment_record.try(:name) ||
+      attachment_record.try(:title)
     end
 
     def attachment(file_url=nil)
@@ -73,10 +83,10 @@ module ActionAdmin
       dataset = { src: 'file.preview.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
       image   = content_tag :img, nil, src: file_url, class: 'width-100', data: { mime_match: 'image/*', replace: 'src' }
       video   = content_tag :video, nil, src: file_url, class: 'width-100', controls: true, data: { mime_match: 'video/*', replace: 'src' }
-      file    = file_preview(file_url)
-      preview = image + video + file
+      preview = image + video + file_preview
 
       if file_url.present?
+        preview    = file_preview
         media_type = MiniMime.lookup_by_filename(file_url.split('/').last.to_s)
         media_type = media_type.content_type.split('/').first unless media_type.nil?
 
@@ -85,16 +95,14 @@ module ActionAdmin
           preview = image
         when 'video'
           preview = video
-        else
-          preview = file
         end
       end
 
       content_tag :div, preview, class: 'margin-bottom-1', data: dataset
     end
 
-    def file_preview(file_url=nil)
-      span = content_tag :span, "#{file_url}".split('/').last, class: 'margin-bottom-1', data: { text: 'name' }
+    def file_preview
+      span = content_tag :span, attachment_name, class: 'margin-bottom-1', data: { text: 'name' }
       icon = content_tag :i, nil, class: 'mdi mdi-file-document-box'
 
       content_tag :div, icon + span, class: 'no-content preview-file', data: { mime_match: '*/*' }
