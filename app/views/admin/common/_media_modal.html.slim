@@ -53,7 +53,9 @@ ruby:
 
 template#media-modal-item-template
   .attachment data-list-item=""
-    .thumbnail
-      img data-src="file.small.url" data-src-fallback="file.url" data-url="#{root_url.chomp('/')}[src]" src=asset_url('admin/upload-preview.svg')
+    .thumbnail data-src="file.small.url" data-src-alt="file.url" data-url="#{root_url.chomp('/')}[src]"
+      img src=asset_url('admin/upload-preview.svg') data-mime-match="image/*" data-replace="src"
+      img src=asset_url('admin/video-preview.svg') data-mime-match="video/*"
+      img src=asset_url('admin/file-preview.svg') data-mime-match="*/*"
       span.filename data-text="name"
       span.check-button.mdi.mdi-check

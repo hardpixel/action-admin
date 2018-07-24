@@ -1,0 +1,4 @@
+<svg height="250" width="250" xmlns="http://www.w3.org/2000/svg">
+  <path d="m0-.00000763h250v250.00001763h-250z" fill="#ccc"/>
+  <path d="m155 110h-10v-10h10m0 30h-10v-10h10m0 30h-10v-10h10m-50-30h-10v-10h10m0 30h-10v-10h10m0 30h-10v-10h10m50-60v10h-10v-10h-40v10h-10v-10h-10v90h10v-10h10v10h40v-10h10v10h10v-90z" fill="#808080" stroke-width="5"/>
+</svg>
