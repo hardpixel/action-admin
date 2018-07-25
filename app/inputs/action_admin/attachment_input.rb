@@ -18,7 +18,10 @@ module ActionAdmin
     end
 
     def final_attribute_name
-      if object.is_a? ::ActiveRecord::Base
+      record = object.is_a?(::ActiveRecord::Base)
+      suffix = attribute_name.to_s.ends_with?('_id')
+
+      if record and !suffix
         :"#{attribute_name}_id"
       else
         :"#{attribute_name}"

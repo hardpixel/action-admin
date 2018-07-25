@@ -19,8 +19,11 @@ module ActionAdmin
     end
 
     def final_attribute_name
-      if object.is_a? ::ActiveRecord::Base
-        :"#{attribute_name}_ids"
+      record = object.is_a?(::ActiveRecord::Base)
+      suffix = attribute_name.to_s.ends_with?('_ids')
+
+      if record and !suffix
+        :"#{attribute_name.to_s.singularize}_ids"
       else
         :"#{attribute_name}"
       end
@@ -30,13 +33,13 @@ module ActionAdmin
       @builder.hidden_field(final_attribute_name, value: '', id: nil, multiple: true)
     end
 
-    def hidden_input(image_id=nil)
+    def hidden_input(file_id=nil)
       input_options = input_html_options
 
       input_options[:data]        ||= {}
       input_options[:data][:value]  = :id
 
-      @builder.hidden_field(final_attribute_name, input_options.merge(multiple: true, value: image_id))
+      @builder.hidden_field(final_attribute_name, input_options.merge(multiple: true, value: file_id))
     end
 
     def input_html_id
@@ -57,20 +60,42 @@ module ActionAdmin
         end
       end
 
-      Array(media).map { |a| [a.try(:id), a.try(:file_url, :small), a.try(:name)] }
+      Array(media).map { |a| [a.try(:id), a.try(:file_url, :small) || a.try(:file_url), a.try(:name)] }
     end
 
     def attachments(urls=[])
       urls.map { |u| attachment(*u) }.join.html_safe
     end
 
-    def attachment(image_id=nil, image_url=nil, image_name=nil)
-      image    = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { src: 'file.small.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
-      filename = content_tag :span, image_name, class: 'filename', data: { text: 'name' }
+    def attachment(file_id=nil, file_url=nil, file_name=nil)
+      dataset  = { src: 'file.small.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
+      filename = content_tag :span, file_name, class: 'filename', data: { text: 'name' }
       remove   = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
-      thumb    = content_tag :div, image + filename + remove, class: 'thumbnail'
+      thumb    = content_tag :div, attachment_preview(file_url) + filename + remove, class: 'thumbnail', data: dataset
 
-      content_tag :div, hidden_input(image_id) + thumb, class: 'attachment', data: { list_item: '' }
+      content_tag :div, hidden_input(file_id) + thumb, class: 'attachment', data: { list_item: '' }
+    end
+
+    def attachment_preview(file_url=nil)
+      image   = content_tag :img, nil, src: file_url || image_url('upload'), data: { mime_match: 'image/*', replace: 'src' }
+      video   = content_tag :img, nil, src: image_url('video'), data: { mime_match: 'video/*' }
+      file    = content_tag :img, nil, src: image_url('file'), data: { mime_match: '*/*' }
+      preview = image + video + file
+
+      if file_url.present?
+        preview    = file
+        media_type = MiniMime.lookup_by_filename(file_url.split('/').last.to_s)
+        media_type = media_type.content_type.split('/').first unless media_type.nil?
+
+        case media_type
+        when 'image'
+          preview = image
+        when 'video'
+          preview = video
+        end
+      end
+
+      preview
     end
 
     def input_template
@@ -79,6 +104,10 @@ module ActionAdmin
 
     def label(wrapper_options)
       ''
+    end
+
+    def image_url(type)
+      template.asset_url("admin/#{type}-preview.svg")
     end
   end
 end
