@@ -77,7 +77,7 @@ module ActionAdmin
       if multiple?
         image_size = input_options.fetch :thumbnail_size, :small
         content = Array(attribute).map do |file|
-          image_url = file.try(:url, image_size)
+          image_url = file.try(:url, image_size) || file.try(:url)
           image_path = file.try(:path)
           image_name = file.file.file.split('/').last
           attachment(image_url, image_name, image_path, true) if image_url.present?
@@ -85,7 +85,6 @@ module ActionAdmin
 
         content.reject(&:blank?).join.html_safe
       else
-        image_size = input_options.fetch :thumbnail_size, :medium
         image_url = attribute.try(:url)
         attachment(image_url) if image_url.present?
       end
