@@ -10,12 +10,16 @@ module ActionAdmin
     def input_placeholder
       span    = content_tag :span, 'No media attached', class: 'margin-bottom-1'
       icon    = content_tag :i, nil, class: 'mdi mdi-camera-off'
-      button  = content_tag :a, 'Add media', data: { open: input_html_id }, class: 'button success small hollow margin-0'
+      clear   = content_tag :a, 'Clear', data: { clear: "#{input_html_id}-preview" }, class: 'button alert hollow margin-0'
+      clear   = content_tag :div, clear, class: 'cell auto'
+      add     = content_tag :a, 'Add media', data: { open: input_html_id }, class: 'button success hollow margin-0'
+      add     = content_tag :div, add, class: 'cell shrink'
+      buttons = content_tag :div, clear + add, class: 'grid-x'
       content = content_tag :div, empty_input + icon + span, class: 'no-content hide', data: { empty_state: '' }
       images  = attachments(attachment_urls) if attachment_urls.present?
       grid    = content_tag(:div, images, data: { list_remove: '' }, class: 'attachments-grid removable')
 
-      content + grid + content_tag(:div, button, class: 'panel-section expanded border last')
+      content + grid + content_tag(:div, buttons, class: 'panel-section expanded border last')
     end
 
     def final_attribute_name
