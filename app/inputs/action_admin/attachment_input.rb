@@ -83,14 +83,14 @@ module ActionAdmin
     end
 
     def attachment_preview(file_url=nil)
-      dataset = { src: 'file.preview.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
-      image   = content_tag :img, nil, src: file_url, class: 'width-100', data: { mime_match: 'image/*', replace: 'src' }
-      video   = content_tag :video, nil, src: file_url, class: 'width-100', controls: true, data: { mime_match: 'video/*', replace: 'src' }
-      preview = image + video + file_preview
+      data  = { src: 'file.preview.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
+      image = content_tag :img, nil, src: file_url, class: 'width-100', data: { mime_match: 'image/*', replace: 'src' }
+      video = content_tag :video, nil, src: file_url, class: 'width-100', controls: true, data: { mime_match: 'video/*', replace: 'src' }
 
-      if file_url.present?
-        preview    = file_preview
-        media_type = MiniMime.lookup_by_filename(file_url.split('/').last.to_s)
+      if file_url.nil?
+        preview = image + video + file_preview
+      else
+        media_type = MiniMime.lookup_by_filename(file_url)
         media_type = media_type.content_type.split('/').first unless media_type.nil?
 
         case media_type
@@ -98,10 +98,12 @@ module ActionAdmin
           preview = image
         when 'video'
           preview = video
+        else
+          preview = file_preview
         end
       end
 
-      content_tag :div, preview, class: 'margin-bottom-1', data: dataset
+      content_tag :div, preview, class: 'margin-bottom-1', data: data
     end
 
     def file_preview

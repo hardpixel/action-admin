@@ -72,22 +72,22 @@ module ActionAdmin
     end
 
     def attachment(file_id=nil, file_url=nil, file_name=nil)
-      dataset  = { src: 'file.small.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
-      filename = content_tag :span, file_name, class: 'filename', data: { text: 'name' }
-      remove   = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
-      thumb    = content_tag :div, attachment_preview(file_url) + filename + remove, class: 'thumbnail', data: dataset
+      data   = { src: 'file.small.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
+      fname  = content_tag :span, file_name, class: 'filename', data: { text: 'name' }
+      remove = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
+      thumb  = content_tag :div, attachment_preview(file_url) + fname + remove, class: 'thumbnail', data: data
 
       content_tag :div, hidden_input(file_id) + thumb, class: 'attachment', data: { list_item: '' }
     end
 
     def attachment_preview(file_url=nil)
-      image   = content_tag :img, nil, src: file_url || image_url('upload'), data: { mime_match: 'image/*', replace: 'src' }
-      video   = content_tag :img, nil, src: image_url('video'), data: { mime_match: 'video/*' }
-      file    = content_tag :img, nil, src: image_url('file'), data: { mime_match: '*/*' }
-      preview = image + video + file
+      image = content_tag :img, nil, src: file_url || image_url('upload'), data: { mime_match: 'image/*', replace: 'src' }
+      video = content_tag :img, nil, src: image_url('video'), data: { mime_match: 'video/*' }
+      file  = content_tag :img, nil, src: image_url('file'), data: { mime_match: '*/*' }
 
-      if file_url.present?
-        preview    = file
+      if file_url.nil?
+        preview = image + video + file
+      else
         media_type = MiniMime.lookup_by_filename(file_url.split('/').last.to_s)
         media_type = media_type.content_type.split('/').first unless media_type.nil?
 
@@ -96,6 +96,8 @@ module ActionAdmin
           preview = image
         when 'video'
           preview = video
+        else
+          preview = file
         end
       end
 
@@ -110,8 +112,10 @@ module ActionAdmin
       ''
     end
 
-    def image_url(type)
-      template.asset_url("admin/#{type}-preview.svg")
-    end
+    private
+
+      def image_url(type)
+        template.asset_url("admin/#{type}-preview.svg")
+      end
   end
 end
