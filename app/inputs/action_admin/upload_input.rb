@@ -55,9 +55,9 @@ module ActionAdmin
       end
     end
 
-    def current_input(image_url)
+    def current_input(file_url)
       if object.respond_to?("current_#{attribute_name}")
-        @builder.hidden_field("current_#{attribute_name}", multiple: true, value: image_url)
+        @builder.hidden_field("current_#{attribute_name}", multiple: true, value: file_url)
       else
         ''.html_safe
       end
@@ -72,41 +72,79 @@ module ActionAdmin
     end
 
     def existing_attachments
-      attribute = object.send(attribute_name)
+      attribute  = object.send(attribute_name)
+      thumb_size = input_options.fetch :thumbnail_size, :small
 
       if multiple?
-        image_size = input_options.fetch :thumbnail_size, :small
         content = Array(attribute).map do |file|
-          image_url = file.try(:url, image_size) || file.try(:url)
-          image_path = file.try(:path)
-          image_name = file.file.file.split('/').last
-          attachment(image_url, image_name, image_path, true) if image_url.present?
+          file_url  = file.try(:url, thumb_size) || file.try(:url)
+          file_path = file.try(:path)
+          file_name = file.file.file.split('/').last
+
+          attachment(file_url, file_name, file_path, true) if file_url.present?
         end
 
         content.reject(&:blank?).join.html_safe
       else
-        image_url = attribute.try(:url)
-        attachment(image_url) if image_url.present?
+        file_url  = attribute.try(:url)
+        file_name = file_url.to_s.split('/').last
+
+        attachment(file_url, file_name) if file_url.present?
       end
     end
 
     def attachment(*args)
-      multiple? ? attachment_multiple(*args) : attachment_single(*args)
+      media_type = MiniMime.lookup_by_filename(args.first.to_s)
+      media_type = media_type.content_type.split('/').first unless media_type.nil?
+
+      multiple? ? attachment_multiple(*args, media_type) : attachment_single(*args, media_type)
     end
 
-    def attachment_single(image_url=nil)
-      image = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { dz_thumbnail: '' }
-      content_tag :div, cache_input + image + attachment_controls, class: 'text-center'
+    def attachment_single(file_url=nil, file_name=nil, media_type=nil)
+      image = content_tag :img, nil, src: file_url, data: { mime_match: 'image/*', dz_thumbnail: '' }
+      video = content_tag :video, nil, src: file_url, controls: true, data: { mime_match: 'video/*', dz_video: '' }
+
+      if media_type.nil?
+        preview = image + video + file_preview(file_name)
+      else
+        case media_type
+        when 'image'
+          preview = image
+        when 'video'
+          preview = video
+        else
+          preview = file_preview(file_name)
+        end
+      end
+
+      preview = content_tag :div, preview, class: 'margin-bottom-1'
+      content_tag :div, cache_input + preview + attachment_controls, class: 'text-center'
     end
 
-    def attachment_multiple(image_url=nil, image_name=nil, image_path=nil, removable=false)
-      image    = content_tag :img, nil, src: image_url, class: 'width-100 margin-bottom-1', data: { dz_thumbnail: '' }
-      filename = content_tag :span, image_name, class: 'filename', data: { dz_name: '' }
-      content  = image + filename
+    def attachment_multiple(file_url=nil, file_name=nil, file_path=nil, removable=false, media_type=nil)
+      image = content_tag :img, nil, src: file_url || image_url('upload'), data: { mime_match: 'image/*', dz_thumbnail: '' }
+      video = content_tag :img, nil, src: image_url('video'), data: { mime_match: 'video/*' }
+      file  = content_tag :img, nil, src: image_url('file'), data: { mime_match: '*/*' }
+      fname = content_tag :span, file_name, class: 'filename', data: { dz_name: '' }
+
+      if media_type.nil?
+        content = image + video + file
+      else
+        case media_type
+        when 'image'
+          content = image
+        when 'video'
+          content = video
+        else
+          content = file
+        end
+      end
+
+      content = content + fname
 
       if removable.present?
         remove  = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
-        content = content + remove + current_input(image_path)
+        content = content + remove + current_input(file_path)
         classes = nil
       else
         size    = content_tag :span, nil, class: 'size left', data: { dz_size: '' }
@@ -117,6 +155,13 @@ module ActionAdmin
 
       thumb = content_tag :div, content, class: 'thumbnail'
       content_tag :div, thumb, class: "attachment #{classes}", data: { list_item: '' }
+    end
+
+    def file_preview(file_name=nil)
+      span = content_tag :span, file_name, class: 'margin-bottom-1', data: { dz_name: '' }
+      icon = content_tag :i, nil, class: 'mdi mdi-file-document-box'
+
+      content_tag :div, icon + span, class: 'file-preview', data: { mime_match: '*/*' }
     end
 
     def input_template
@@ -149,6 +194,10 @@ module ActionAdmin
 
       def multiple?
         input_html_options[:multiple] == true
+      end
+
+      def image_url(type)
+        template.asset_url("admin/#{type}-preview.svg")
       end
   end
 end
