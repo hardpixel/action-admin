@@ -108,7 +108,7 @@ module ActionAdmin
       span = content_tag :span, attachment_name, class: 'margin-bottom-1', data: { text: 'name' }
       icon = content_tag :i, nil, class: 'mdi mdi-file-document-box'
 
-      content_tag :div, icon + span, class: 'no-content preview-file', data: { mime_match: '*/*' }
+      content_tag :div, icon + span, class: 'file-preview', data: { mime_match: '*/*' }
     end
 
     def input_template
