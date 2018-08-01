@@ -5,9 +5,11 @@ module ActionAdmin
     included do
       include Controller
 
+      class_attribute :namespace, instance_predicate: false
       class_attribute :action_header
       class_attribute :_action_templates
 
+      self.namespace         = :admin
       self.action_header     = Header.new
       self._action_templates = {}
     end
