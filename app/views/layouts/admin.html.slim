@@ -7,6 +7,7 @@ html
     = favicon_link_tag 'admin/favicon.png'
     = stylesheet_link_tag 'admin/application', media: 'all'
     script = '/** ActionAdmin **/'
+    = yield :admin_head
 
   body class=admin_body_class
     .off-canvas-wrapper data-resize-watcher=""
@@ -36,3 +37,4 @@ html
 
     = google_maps_javascript_tag
     = javascript_include_tag 'admin/application'
+    = yield :admin_footer
