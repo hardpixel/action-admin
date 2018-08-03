@@ -6,6 +6,7 @@ module ActionAdmin
       include Actionable
       include ActionCrud
 
+      set_index_scope ActionAdmin.config.admin_index_scope
       set_namespace :admin
       permit_params except: [:created_at, :updated_at, :type, :ancestry]
     end
