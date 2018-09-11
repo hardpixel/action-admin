@@ -49,7 +49,8 @@ module ActionAdmin
 
     def remove_input
       if object.respond_to?("remove_#{attribute_name}")
-        @builder.check_box("remove_#{attribute_name}", class: 'hide', data: { dz_remove_input: '' })
+        checkbox_options = { class: 'hide', data: { dz_remove_input: '' } }
+        @builder.check_box("remove_#{attribute_name}", checkbox_options, true, false)
       else
         ''.html_safe
       end
