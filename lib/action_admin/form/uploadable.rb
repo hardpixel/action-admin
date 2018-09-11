@@ -31,18 +31,17 @@ module ActionAdmin
 
           before_validation do |record|
             curr_files = Array(record.send(attr_curr)).reject(&:blank?)
-            keep_files = Array(record.send(attr_prev)).select do |item|
-              item.file.file.in? curr_files
-            end
+            keep_files = Array(record.send(attr_prev)).select { |i| i.file.file.in? curr_files }
+            drop_files = Array(record.send(attr_name)).any? { |i| !i.file.file.in? curr_files }
 
             if send(:"#{attr_name}_cache").present?
               new_files = record.send(attr_name)
               all_files = keep_files + new_files
-            else
-              all_files = keep_files
-            end
 
-            record.send :"#{attr_name}=", all_files.uniq { |i| i.file.file }
+              record.send :"#{attr_name}=", all_files.uniq { |i| i.file.file }
+            elsif drop_files.present?
+              record.send :"#{attr_name}=", keep_files.uniq { |i| i.file.file }
+            end
           end
         end
       end
