@@ -13,17 +13,18 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
   s.files       = Dir['{app,config,db,lib}/**/*', 'LICENSE.txt', 'Rakefile', 'README.md']
 
-  s.add_dependency 'rails', '~> 5.1'
-  s.add_dependency 'slim', '~> 3.0'
-  s.add_dependency 'hashie', '~> 3.5'
+  s.add_dependency 'rails', '>= 5.1', '< 6.0'
+  s.add_dependency 'slim', '>= 3.0'
+  s.add_dependency 'hashie', '>= 3.5'
+  s.add_dependency 'meta-tags', '>= 2.4'
+  s.add_dependency 'mini_mime', '>= 1.0'
+  s.add_dependency 'simple_form', '>= 3.5'
+
   s.add_dependency 'bedrock_sass', '~> 0.1'
   s.add_dependency 'action_crud', '~> 0.1'
-  s.add_dependency 'simple_form', '~> 4.0'
   s.add_dependency 'simple_attribute', '~> 0.1'
   s.add_dependency 'smart_navigation', '~> 0.1'
   s.add_dependency 'smart_pagination', '~> 0.2'
-  s.add_dependency 'meta-tags', '~> 2.6'
-  s.add_dependency 'mini_mime', '~> 1.0'
 
   s.add_development_dependency 'sqlite3'
 end
