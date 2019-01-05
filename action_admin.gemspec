@@ -26,5 +26,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'smart_navigation', '~> 0.1'
   s.add_dependency 'smart_pagination', '~> 0.2'
 
+  s.add_development_dependency 'rdoc'
   s.add_development_dependency 'sqlite3'
 end
