@@ -11,20 +11,16 @@ require 'action_admin/engine'
 module ActionAdmin
   extend ActiveSupport::Autoload
 
-  # Autoload modules
   autoload :Config
   autoload :Form
   autoload :Header
   autoload :Table
   autoload :Shortcode
 
-  # Set attr accessors
   mattr_accessor :config
 
-  # Set config options
   @@config = Config.new
 
-  # Setup module config
   def self.setup
     yield config
   end
