@@ -30,24 +30,24 @@ module ActionAdmin
 
     private
 
-      # Checks if shortcode string is valid
-      def valid_shortcode?(string)
-        "#{string}".strip.match(/^\[(\w+) (.+?)\]$/).present? and
-        parse_shortcode_field(string) == "#{@field}"
-      end
+    # Checks if shortcode string is valid
+    def valid_shortcode?(string)
+      "#{string}".strip.match(/^\[(\w+) (.+?)\]$/).present? and
+      parse_shortcode_field(string) == "#{@field}"
+    end
 
-      # Parses shortcode string and returns field name
-      def parse_shortcode_field(string)
-        "#{string}".match(/^\[(\w+) /).captures.first
-      end
+    # Parses shortcode string and returns field name
+    def parse_shortcode_field(string)
+      "#{string}".match(/^\[(\w+) /).captures.first
+    end
 
-      # Parses shortcode string and returns attributes
-      def parse_shortcode_attr(string, attribs)
-        found = Hash["#{string}".scan(/(\w+)="([^"]+)"/)].symbolize_keys
-        valid = found.select { |k, _v| k.in? attribs.keys }
-        valid = Hash[valid.map { |k, v| k == :ids ? [k, v.split(',').map(&:strip)] : [k, v] }]
+    # Parses shortcode string and returns attributes
+    def parse_shortcode_attr(string, attribs)
+      found = Hash["#{string}".scan(/(\w+)="([^"]+)"/)].symbolize_keys
+      valid = found.select { |k, _v| k.in? attribs.keys }
+      valid = Hash[valid.map { |k, v| k == :ids ? [k, v.split(',').map(&:strip)] : [k, v] }]
 
-        valid_shortcode?(string) ? attribs.merge(valid) : attribs
-      end
+      valid_shortcode?(string) ? attribs.merge(valid) : attribs
+    end
   end
 end

@@ -18,17 +18,17 @@ module ActionAdmin
 
     private
 
-      # Set admin default locale
-      def set_admin_locale
-        I18n.locale = ActionAdmin.config.admin_locale || I18n.default_locale
-      end
+    # Set admin default locale
+    def set_admin_locale
+      I18n.locale = ActionAdmin.config.admin_locale || I18n.default_locale
+    end
 
-      # Render default view template
-      def render_default_view
-        respond_to do |format|
-          format.html { render 'admin/common/action' }
-          format.json { render json: { message: 'No content' }, status: :unprocessable_entity }
-        end
+    # Render default view template
+    def render_default_view
+      respond_to do |format|
+        format.html { render 'admin/common/action' }
+        format.json { render json: { message: 'No content' }, status: :unprocessable_entity }
       end
+    end
   end
 end

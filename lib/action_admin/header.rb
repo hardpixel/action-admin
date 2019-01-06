@@ -76,25 +76,25 @@ module ActionAdmin
 
     private
 
-      def add_action_key(action, key, value, append=false)
-        self.actions[action] = {} unless self.actions.key?(action)
+    def add_action_key(action, key, value, append = false)
+      self.actions[action] = {} unless self.actions.key?(action)
 
-        if append.present?
-          self.actions[action][key]  = Array(self.actions[action][key])
-          self.actions[action][key] += [value]
-        else
-          self.actions[action][key] = value
-        end
+      if append.present?
+        self.actions[action][key]  = Array(self.actions[action][key])
+        self.actions[action][key] += [value]
+      else
+        self.actions[action][key] = value
       end
+    end
 
-      def evaluate_value(value, context)
-        if value.is_a?(Proc)
-          context.instance_exec(&value)
-        elsif value.is_a?(Symbol)
-          context.try(value) || value
-        else
-          value
-        end
+    def evaluate_value(value, context)
+      if value.is_a?(Proc)
+        context.instance_exec(&value)
+      elsif value.is_a?(Symbol)
+        context.try(value) || value
+      else
+        value
       end
+    end
   end
 end

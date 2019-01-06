@@ -27,11 +27,11 @@ module ActionAdmin
 
     private
 
-      def set_column_header(name, options={})
-        label = options.fetch(:label, name.to_s.titleize)
-        html  = options.fetch(:html, {})
+    def set_column_header(name, options = {})
+      label = options.fetch(:label, name.to_s.titleize)
+      html  = options.fetch(:html, {})
 
-        { label: label, html: html }
-      end
+      { label: label, html: html }
+    end
   end
 end

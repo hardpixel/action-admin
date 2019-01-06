@@ -193,12 +193,12 @@ module ActionAdmin
 
     private
 
-      def multiple?
-        input_html_options[:multiple] == true
-      end
+    def multiple?
+      input_html_options[:multiple] == true
+    end
 
-      def image_url(type)
-        template.asset_url("admin/#{type}-preview.svg")
-      end
+    def image_url(type)
+      template.asset_url("admin/#{type}-preview.svg")
+    end
   end
 end

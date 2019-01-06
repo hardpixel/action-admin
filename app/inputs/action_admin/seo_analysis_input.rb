@@ -82,28 +82,28 @@ module ActionAdmin
 
     private
 
-      def attribute_default(attrib)
-        items = object.try(attribute_name).select do |k, v|
-          "#{k}" == "#{attrib}" || "#{k}" == "#{attrib}".sub('seo_', '')
-        end
-
-        items.values.first
+    def attribute_default(attrib)
+      items = object.try(attribute_name).select do |k, v|
+        "#{k}" == "#{attrib}" || "#{k}" == "#{attrib}".sub('seo_', '')
       end
 
-      def text_html_id
-        attrib = options.fetch :content, detect_text_attribute
-        id_from_html @builder.hidden_field(attrib)
-      end
+      items.values.first
+    end
 
-      def detect_text_attribute
-        items  = ['content', 'description', 'body']
-        attrib = object.class.attribute_names.select { |n| n.in? items }
+    def text_html_id
+      attrib = options.fetch :content, detect_text_attribute
+      id_from_html @builder.hidden_field(attrib)
+    end
 
-        attrib.sort_by { |a| items.index(a).to_i }.first
-      end
+    def detect_text_attribute
+      items  = ['content', 'description', 'body']
+      attrib = object.class.attribute_names.select { |n| n.in? items }
 
-      def id_from_html(field)
-        field.to_s[/id=\"(.*)\"/, 1]
-      end
+      attrib.sort_by { |a| items.index(a).to_i }.first
+    end
+
+    def id_from_html(field)
+      field.to_s[/id=\"(.*)\"/, 1]
+    end
   end
 end
