@@ -45,7 +45,7 @@ module ActionAdmin
       object.try(reflection_or_attribute_name)
     end
 
-    def list_items(rows=[])
+    def list_items(rows = [])
       fields = []
 
       @builder.fields_for reflection_or_attribute_name, rows do |f|
@@ -62,7 +62,7 @@ module ActionAdmin
       fields.join.html_safe
     end
 
-    def list_item(fields_html=nil)
+    def list_item(fields_html = nil)
       counter = content_tag :span, nil, class: 'counter'
       remove  = content_tag :span, nil, class: 'remove mdi mdi-close', data: { remove: '' }
       content = content_tag :div, fields_html, class: 'content grid-x'

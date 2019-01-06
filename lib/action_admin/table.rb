@@ -12,7 +12,7 @@ module ActionAdmin
       self.header  = {}
     end
 
-    def column(name, options={})
+    def column(name, options = {})
       self.columns = self.columns.merge(name => options)
       self.header  = self.header.merge(name => set_column_header(name, options))
     end

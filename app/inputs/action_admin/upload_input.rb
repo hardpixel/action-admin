@@ -101,7 +101,7 @@ module ActionAdmin
       multiple? ? attachment_multiple(*args, media_type) : attachment_single(*args, media_type)
     end
 
-    def attachment_single(file_url=nil, file_name=nil, media_type=nil)
+    def attachment_single(file_url = nil, file_name = nil, media_type = nil)
       image = content_tag :img, nil, src: file_url, data: { mime_match: 'image/*', dz_thumbnail: '' }
       video = content_tag :video, nil, src: file_url, controls: true, data: { mime_match: 'video/*', dz_video: '' }
 
@@ -122,7 +122,7 @@ module ActionAdmin
       content_tag :div, cache_input + preview + attachment_controls, class: 'text-center'
     end
 
-    def attachment_multiple(file_url=nil, file_name=nil, file_path=nil, removable=false, media_type=nil)
+    def attachment_multiple(file_url = nil, file_name = nil, file_path = nil, removable = false, media_type = nil)
       image = content_tag :img, nil, src: file_url || image_url('upload'), data: { mime_match: 'image/*', dz_thumbnail: '' }
       video = content_tag :img, nil, src: image_url('video'), data: { mime_match: 'video/*' }
       file  = content_tag :img, nil, src: image_url('file'), data: { mime_match: '*/*' }
@@ -158,7 +158,7 @@ module ActionAdmin
       content_tag :div, thumb, class: "attachment #{classes}", data: { list_item: '' }
     end
 
-    def file_preview(file_name=nil)
+    def file_preview(file_name = nil)
       span = content_tag :span, file_name, class: 'margin-bottom-1', data: { dz_name: '' }
       icon = content_tag :i, nil, class: 'mdi mdi-file-document-box'
 

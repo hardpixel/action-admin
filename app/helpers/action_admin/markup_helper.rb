@@ -1,6 +1,6 @@
 module ActionAdmin
   module MarkupHelper
-    def admin_icon(name, options={})
+    def admin_icon(name, options = {})
       opts = options.except(:text, :revert).merge(class: "mdi mdi-#{name}")
       icon = content_tag :i, nil, opts if name.present?
       text = options[:text]
@@ -9,7 +9,7 @@ module ActionAdmin
       data.join(' ').html_safe
     end
 
-    def admin_pagination(records, options={})
+    def admin_pagination(records, options = {})
       options = options.merge({
         previous_class: 'pagination-previous',
         next_class:     'pagination-next',
@@ -27,7 +27,7 @@ module ActionAdmin
       content_tag :div, info + links, class: 'grid-x'
     end
 
-    def admin_settings_menu(options={})
+    def admin_settings_menu(options = {})
       items        = {}
       menu         = options[:menu]
       records      = options[:collection]
@@ -110,7 +110,7 @@ module ActionAdmin
       smart_navigation_for items, options
     end
 
-    def admin_action_links(action=nil)
+    def admin_action_links(action = nil)
       name  = action || action_name
       links = controller.action_header.action_links(name, self).map do |link|
         unless link[:url].nil?
@@ -125,7 +125,7 @@ module ActionAdmin
       links.reject(&:blank?).join(' ').html_safe
     end
 
-    def admin_table_action_links(record, actions=nil)
+    def admin_table_action_links(record, actions = nil)
       app_url  = method(ActionAdmin.config.app_urls).call(record) rescue nil
       app_link = link_to admin_icon('web'), app_url, title: 'Web', target: :_blank, class: 'button hollow info' if app_url.present?
 

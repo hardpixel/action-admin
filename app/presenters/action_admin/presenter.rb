@@ -27,7 +27,7 @@ module ActionAdmin
       attribute_names.map { |i| @model.human_attribute_name(i) }
     end
 
-    def render_attribute(name, options={})
+    def render_attribute(name, options = {})
       @context.simple_attribute_for(@record, name, options.merge(namespace: 'Admin'))
     end
 
@@ -68,7 +68,7 @@ module ActionAdmin
       end
     end
 
-    def render_field(form, field, options={})
+    def render_field(form, field, options = {})
       options     = Hash(options)
       association = options[:association]
 
@@ -91,7 +91,7 @@ module ActionAdmin
       end
     end
 
-    def render_panel(form, options={})
+    def render_panel(form, options = {})
       template = "admin/panels/#{options.fetch :template, 'default'}"
       content  = Array(options[:fields]).map { |f| render_panel_field(form, f, options) }
       footer   = Array(Hash(options[:footer])[:fields]).map { |f| render_panel_field(form, f, options) }.join.html_safe
@@ -116,7 +116,7 @@ module ActionAdmin
       render_field(form, field, opts)
     end
 
-    def render_panels(options={})
+    def render_panels(options = {})
       form    = options[:form]
       context = options[:context]
 
@@ -128,7 +128,7 @@ module ActionAdmin
       panels.sort_by { |_i, o| [items.index(o[:priority]).to_i, o[:order].to_i] }
     end
 
-    def panels_for_context(context=nil)
+    def panels_for_context(context = nil)
       if context.blank?
         sorted_panels.select { |_i, o| o[:context].blank? }
       else

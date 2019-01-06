@@ -15,19 +15,19 @@ module ActionAdmin
     end
 
     class_methods do
-      def attribute(name, options={})
+      def attribute(name, options = {})
         self.record_attributes = self.record_attributes.merge(name => options)
       end
 
-      def field(name, options={})
+      def field(name, options = {})
         self.record_fields = self.record_fields.merge(name => options)
       end
 
-      def panel(name, options={})
+      def panel(name, options = {})
         self.record_panels = self.record_panels.merge(name => options)
       end
 
-      def table(name, options={}, &block)
+      def table(name, options = {}, &block)
         new_table = ActionAdmin::Table.new(name, options)
         new_table.merge(self.record_tables[name])
 

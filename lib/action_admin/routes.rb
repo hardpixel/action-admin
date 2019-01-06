@@ -1,6 +1,6 @@
 module ActionDispatch::Routing
   class Mapper
-    def authenticate_admin(resource, options={})
+    def authenticate_admin(resource, options = {})
       space   = options.fetch :namespace, :admin
       path    = options.fetch :path, "#{space}/#{resource}"
       model   = "#{resource}".pluralize

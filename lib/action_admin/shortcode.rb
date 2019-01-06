@@ -1,7 +1,7 @@
 module ActionAdmin
   class Shortcode
     # Initializes the decorator
-    def initialize(params, attribs={})
+    def initialize(params, attribs = {})
       attribs = Hash[attribs.map { |k, _v| [k, nil] }].symbolize_keys
       string  = URI.decode(params[:shortcode])
 

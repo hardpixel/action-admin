@@ -11,7 +11,7 @@ module ActionAdmin
       self.record_fields
     end
 
-    def render_field(form, field, options={})
+    def render_field(form, field, options = {})
       options = Hash(options)
 
       options[:input_html]        ||= {}

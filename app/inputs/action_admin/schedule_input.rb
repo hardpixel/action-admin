@@ -33,12 +33,12 @@ module ActionAdmin
       object.try(reflection_or_attribute_name)
     end
 
-    def list_items(rows=[])
+    def list_items(rows = [])
       fields = Array(rows).map { |i| list_item(i) }
       fields.join.html_safe
     end
 
-    def list_item(value=nil)
+    def list_item(value = nil)
       counter   = content_tag :span, nil, class: 'counter'
       remove    = content_tag :span, nil, class: 'remove mdi mdi-close', data: { remove: '' }
       item_html = content_tag :span, value, class: 'form-element', data: { rrule_string: '' }

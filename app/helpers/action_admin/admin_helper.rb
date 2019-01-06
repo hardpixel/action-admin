@@ -4,7 +4,7 @@ module ActionAdmin
       ActionAdmin.config.app_name
     end
 
-    def admin_action_title(action=nil)
+    def admin_action_title(action = nil)
       if controller.respond_to? :action_header
         name = action || action_name
         controller.action_header.action_title(name, self)
@@ -26,7 +26,7 @@ module ActionAdmin
       display_meta_tags
     end
 
-    def admin_present(record, presenter=nil)
+    def admin_present(record, presenter = nil)
       record     = record.new if record.respond_to? :new
       class_name = record.class.name
       presenter  = presenter || "Admin::#{class_name}Presenter"
@@ -35,7 +35,7 @@ module ActionAdmin
       presenter.new(record, self)
     end
 
-    def admin_present_many(records, presenter=nil)
+    def admin_present_many(records, presenter = nil)
       records.to_a.map { |r| admin_present(r, presenter) }
     end
 
@@ -71,7 +71,7 @@ module ActionAdmin
       url_for merge_params({}, [:per_page, :filter, :sort], params.permit(:per_page, filter: {}, sort: {}).to_h)
     end
 
-    def admin_shortcode_present(shortcode, presenter=nil)
+    def admin_shortcode_present(shortcode, presenter = nil)
       class_name = shortcode.classify
       presenter  = presenter || "Admin::Shortcode::#{class_name}Presenter"
       presenter  = "#{presenter}".safe_constantize || 'ActionAdmin::ShortcodePresenter'.constantize

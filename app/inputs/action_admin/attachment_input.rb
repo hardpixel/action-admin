@@ -72,7 +72,7 @@ module ActionAdmin
       attachment_record.try(:title)
     end
 
-    def attachment(file_url=nil)
+    def attachment(file_url = nil)
       remove  = content_tag :a, 'Remove', class: 'button alert small hollow margin-0', data: { remove: '' }
       change  = content_tag :a, 'Change', class: 'button success small hollow margin-0', data: { open: input_html_id }
       remove  = content_tag :div, remove, class: 'cell auto text-left'
@@ -82,7 +82,7 @@ module ActionAdmin
       content_tag :div, hidden_input + attachment_preview(file_url) + buttons, class: 'attachment text-center', data: { list_item: '' }
     end
 
-    def attachment_preview(file_url=nil)
+    def attachment_preview(file_url = nil)
       data  = { src: 'file.preview.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
       image = content_tag :img, nil, src: file_url, class: 'width-100', data: { mime_match: 'image/*', replace: 'src' }
       video = content_tag :video, nil, src: file_url, class: 'width-100', controls: true, data: { mime_match: 'video/*', replace: 'src' }

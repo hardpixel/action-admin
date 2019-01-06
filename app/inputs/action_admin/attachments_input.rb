@@ -37,7 +37,7 @@ module ActionAdmin
       @builder.hidden_field(final_attribute_name, value: '', id: nil, multiple: true)
     end
 
-    def hidden_input(file_id=nil)
+    def hidden_input(file_id = nil)
       input_options = input_html_options
 
       input_options[:data]        ||= {}
@@ -67,11 +67,11 @@ module ActionAdmin
       Array(media).map { |a| [a.try(:id), a.try(:file_url, :small) || a.try(:file_url), a.try(:name)] }
     end
 
-    def attachments(urls=[])
+    def attachments(urls = [])
       urls.map { |u| attachment(*u) }.join.html_safe
     end
 
-    def attachment(file_id=nil, file_url=nil, file_name=nil)
+    def attachment(file_id = nil, file_url = nil, file_name = nil)
       data   = { src: 'file.small.url', src_alt: 'file.url', url: "#{template.root_url.chomp('/')}[src]" }
       fname  = content_tag :span, file_name, class: 'filename', data: { text: 'name' }
       remove = content_tag :span, nil, class: 'remove-button mdi mdi-close', data: { remove: '' }
@@ -80,7 +80,7 @@ module ActionAdmin
       content_tag :div, hidden_input(file_id) + thumb, class: 'attachment', data: { list_item: '' }
     end
 
-    def attachment_preview(file_url=nil)
+    def attachment_preview(file_url = nil)
       image = content_tag :img, nil, src: file_url || image_url('upload'), data: { mime_match: 'image/*', replace: 'src' }
       video = content_tag :img, nil, src: image_url('video'), data: { mime_match: 'video/*' }
       file  = content_tag :img, nil, src: image_url('file'), data: { mime_match: '*/*' }

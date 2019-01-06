@@ -36,7 +36,7 @@ module ActionAdmin
       end
 
       # Create error notification
-      def error_notification(options={})
+      def error_notification(options = {})
         Form::ErrorNotification.new(self, options).render
       end
 
